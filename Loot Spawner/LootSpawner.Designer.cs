@@ -108,7 +108,7 @@
             // uxOutputToText
             // 
             this.uxOutputToText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uxOutputToText.Location = new System.Drawing.Point(446, 33);
+            this.uxOutputToText.Location = new System.Drawing.Point(444, 34);
             this.uxOutputToText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOutputToText.Name = "uxOutputToText";
             this.uxOutputToText.Size = new System.Drawing.Size(88, 52);
@@ -118,7 +118,7 @@
             // 
             // uxRemoveEntirety
             // 
-            this.uxRemoveEntirety.Location = new System.Drawing.Point(328, 119);
+            this.uxRemoveEntirety.Location = new System.Drawing.Point(326, 120);
             this.uxRemoveEntirety.Name = "uxRemoveEntirety";
             this.uxRemoveEntirety.Size = new System.Drawing.Size(150, 23);
             this.uxRemoveEntirety.TabIndex = 5;
@@ -127,7 +127,7 @@
             // 
             // uxRemoveQuantity
             // 
-            this.uxRemoveQuantity.Location = new System.Drawing.Point(328, 90);
+            this.uxRemoveQuantity.Location = new System.Drawing.Point(326, 91);
             this.uxRemoveQuantity.Name = "uxRemoveQuantity";
             this.uxRemoveQuantity.Size = new System.Drawing.Size(150, 23);
             this.uxRemoveQuantity.TabIndex = 4;
@@ -136,7 +136,7 @@
             // 
             // uxShowTotal
             // 
-            this.uxShowTotal.Location = new System.Drawing.Point(328, 62);
+            this.uxShowTotal.Location = new System.Drawing.Point(326, 63);
             this.uxShowTotal.Name = "uxShowTotal";
             this.uxShowTotal.Size = new System.Drawing.Size(113, 23);
             this.uxShowTotal.TabIndex = 3;
@@ -145,7 +145,7 @@
             // 
             // uxShowDetail
             // 
-            this.uxShowDetail.Location = new System.Drawing.Point(328, 33);
+            this.uxShowDetail.Location = new System.Drawing.Point(326, 34);
             this.uxShowDetail.Name = "uxShowDetail";
             this.uxShowDetail.Size = new System.Drawing.Size(113, 23);
             this.uxShowDetail.TabIndex = 2;
@@ -284,7 +284,7 @@
             // uxCLearLoot
             // 
             this.uxCLearLoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.uxCLearLoot.Location = new System.Drawing.Point(483, 89);
+            this.uxCLearLoot.Location = new System.Drawing.Point(481, 90);
             this.uxCLearLoot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxCLearLoot.Name = "uxCLearLoot";
             this.uxCLearLoot.Size = new System.Drawing.Size(51, 53);
