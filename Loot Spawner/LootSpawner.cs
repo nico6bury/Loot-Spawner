@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace Loot_Spawner
 {
-    public partial class Form1 : Form
+    public partial class LootSpawner : Form
     {
-        public Form1()
+        public LootSpawner()
         {
             InitializeComponent();
-        }
-    }
-}
+        }//end constructor
+    }//end partial class LootSpawner
+}//end namespace
