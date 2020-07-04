@@ -50,7 +50,7 @@
             this.uxCLearLoot = new System.Windows.Forms.Button();
             this.uxClearSelection = new System.Windows.Forms.Button();
             this.uxSelectAll = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uxOpenFile = new System.Windows.Forms.ToolStripMenuItem();
             this.uxOutputGroup.SuspendLayout();
@@ -58,7 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxSpecOrigChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEnchantChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEmbelishChance)).BeginInit();
-            this.menuStrip1.SuspendLayout();
+            this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // uxCategoryOptions
@@ -87,6 +87,7 @@
             this.uxOutputGroup.Controls.Add(this.uxShowTotal);
             this.uxOutputGroup.Controls.Add(this.uxShowDetail);
             this.uxOutputGroup.Controls.Add(this.uxResultsList);
+            this.uxOutputGroup.Enabled = false;
             this.uxOutputGroup.Location = new System.Drawing.Point(11, 200);
             this.uxOutputGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOutputGroup.Name = "uxOutputGroup";
@@ -198,24 +199,27 @@
             this.uxSpecOrigChance.Location = new System.Drawing.Point(241, 59);
             this.uxSpecOrigChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpecOrigChance.Name = "uxSpecOrigChance";
-            this.uxSpecOrigChance.Size = new System.Drawing.Size(31, 20);
+            this.uxSpecOrigChance.Size = new System.Drawing.Size(37, 20);
             this.uxSpecOrigChance.TabIndex = 5;
+            this.uxSpecOrigChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // uxEnchantChance
             // 
             this.uxEnchantChance.Location = new System.Drawing.Point(241, 37);
             this.uxEnchantChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEnchantChance.Name = "uxEnchantChance";
-            this.uxEnchantChance.Size = new System.Drawing.Size(31, 20);
+            this.uxEnchantChance.Size = new System.Drawing.Size(37, 20);
             this.uxEnchantChance.TabIndex = 4;
+            this.uxEnchantChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // uxEmbelishChance
             // 
             this.uxEmbelishChance.Location = new System.Drawing.Point(241, 16);
             this.uxEmbelishChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEmbelishChance.Name = "uxEmbelishChance";
-            this.uxEmbelishChance.Size = new System.Drawing.Size(31, 20);
+            this.uxEmbelishChance.Size = new System.Drawing.Size(37, 20);
             this.uxEmbelishChance.TabIndex = 3;
+            this.uxEmbelishChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // uxSpecOrigAllowed
             // 
@@ -295,15 +299,15 @@
             this.uxSelectAll.Text = "Select All";
             this.uxSelectAll.UseVisualStyleBackColor = true;
             // 
-            // menuStrip1
+            // MenuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(600, 24);
-            this.menuStrip1.TabIndex = 8;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(600, 24);
+            this.MenuStrip.TabIndex = 8;
+            this.MenuStrip.Text = "MenuStrip";
             // 
             // fileToolStripMenuItem
             // 
@@ -331,8 +335,8 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.uxOutputGroup);
             this.Controls.Add(this.uxCategoryOptions);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.MenuStrip);
+            this.MainMenuStrip = this.MenuStrip;
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "LootSpawner";
             this.Text = "Loot Spawner";
@@ -342,8 +346,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxSpecOrigChance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEnchantChance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEmbelishChance)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,7 +377,7 @@
         private System.Windows.Forms.Button uxShowDetail;
         private System.Windows.Forms.Button uxClearSelection;
         private System.Windows.Forms.Button uxSelectAll;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uxOpenFile;
     }
