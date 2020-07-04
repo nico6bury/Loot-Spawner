@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.uxCategoryOptions = new System.Windows.Forms.CheckedListBox();
             this.uxResultsList = new System.Windows.Forms.ListBox();
             this.uxOutputGroup = new System.Windows.Forms.GroupBox();
@@ -36,7 +37,7 @@
             this.uxRemoveQuantity = new System.Windows.Forms.Button();
             this.uxShowTotal = new System.Windows.Forms.Button();
             this.uxShowDetail = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.uxOptionsGroup = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,12 +54,18 @@
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uxOpenFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.uxToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.uxSpawningGroup = new System.Windows.Forms.GroupBox();
             this.uxOutputGroup.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.uxOptionsGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxSpecOrigChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEnchantChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEmbelishChance)).BeginInit();
             this.MenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.uxSpawningGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // uxCategoryOptions
@@ -67,7 +74,7 @@
             this.uxCategoryOptions.Location = new System.Drawing.Point(11, 26);
             this.uxCategoryOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxCategoryOptions.Name = "uxCategoryOptions";
-            this.uxCategoryOptions.Size = new System.Drawing.Size(286, 139);
+            this.uxCategoryOptions.Size = new System.Drawing.Size(286, 169);
             this.uxCategoryOptions.TabIndex = 0;
             // 
             // uxResultsList
@@ -85,6 +92,7 @@
             this.uxOutputGroup.Controls.Add(this.uxRemoveEntirety);
             this.uxOutputGroup.Controls.Add(this.uxRemoveQuantity);
             this.uxOutputGroup.Controls.Add(this.uxShowTotal);
+            this.uxOutputGroup.Controls.Add(this.uxCLearLoot);
             this.uxOutputGroup.Controls.Add(this.uxShowDetail);
             this.uxOutputGroup.Controls.Add(this.uxResultsList);
             this.uxOutputGroup.Enabled = false;
@@ -92,7 +100,7 @@
             this.uxOutputGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOutputGroup.Name = "uxOutputGroup";
             this.uxOutputGroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.uxOutputGroup.Size = new System.Drawing.Size(582, 171);
+            this.uxOutputGroup.Size = new System.Drawing.Size(568, 171);
             this.uxOutputGroup.TabIndex = 2;
             this.uxOutputGroup.TabStop = false;
             this.uxOutputGroup.Text = "Ouput Options";
@@ -100,7 +108,7 @@
             // uxOutputToText
             // 
             this.uxOutputToText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uxOutputToText.Location = new System.Drawing.Point(448, 30);
+            this.uxOutputToText.Location = new System.Drawing.Point(446, 33);
             this.uxOutputToText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOutputToText.Name = "uxOutputToText";
             this.uxOutputToText.Size = new System.Drawing.Size(88, 52);
@@ -110,7 +118,7 @@
             // 
             // uxRemoveEntirety
             // 
-            this.uxRemoveEntirety.Location = new System.Drawing.Point(330, 116);
+            this.uxRemoveEntirety.Location = new System.Drawing.Point(328, 119);
             this.uxRemoveEntirety.Name = "uxRemoveEntirety";
             this.uxRemoveEntirety.Size = new System.Drawing.Size(150, 23);
             this.uxRemoveEntirety.TabIndex = 5;
@@ -119,7 +127,7 @@
             // 
             // uxRemoveQuantity
             // 
-            this.uxRemoveQuantity.Location = new System.Drawing.Point(330, 87);
+            this.uxRemoveQuantity.Location = new System.Drawing.Point(328, 90);
             this.uxRemoveQuantity.Name = "uxRemoveQuantity";
             this.uxRemoveQuantity.Size = new System.Drawing.Size(150, 23);
             this.uxRemoveQuantity.TabIndex = 4;
@@ -128,7 +136,7 @@
             // 
             // uxShowTotal
             // 
-            this.uxShowTotal.Location = new System.Drawing.Point(330, 59);
+            this.uxShowTotal.Location = new System.Drawing.Point(328, 62);
             this.uxShowTotal.Name = "uxShowTotal";
             this.uxShowTotal.Size = new System.Drawing.Size(113, 23);
             this.uxShowTotal.TabIndex = 3;
@@ -137,37 +145,37 @@
             // 
             // uxShowDetail
             // 
-            this.uxShowDetail.Location = new System.Drawing.Point(330, 30);
+            this.uxShowDetail.Location = new System.Drawing.Point(328, 33);
             this.uxShowDetail.Name = "uxShowDetail";
             this.uxShowDetail.Size = new System.Drawing.Size(113, 23);
             this.uxShowDetail.TabIndex = 2;
             this.uxShowDetail.Text = "show detailed info";
             this.uxShowDetail.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // uxOptionsGroup
             // 
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.uxSpecOrigChance);
-            this.groupBox1.Controls.Add(this.uxEnchantChance);
-            this.groupBox1.Controls.Add(this.uxEmbelishChance);
-            this.groupBox1.Controls.Add(this.uxSpecOrigAllowed);
-            this.groupBox1.Controls.Add(this.uxEnchantAllowed);
-            this.groupBox1.Controls.Add(this.uxEmbellishAllowed);
-            this.groupBox1.Location = new System.Drawing.Point(301, 27);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(291, 88);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Extra Options";
+            this.uxOptionsGroup.Controls.Add(this.label3);
+            this.uxOptionsGroup.Controls.Add(this.label2);
+            this.uxOptionsGroup.Controls.Add(this.label1);
+            this.uxOptionsGroup.Controls.Add(this.uxSpecOrigChance);
+            this.uxOptionsGroup.Controls.Add(this.uxEnchantChance);
+            this.uxOptionsGroup.Controls.Add(this.uxEmbelishChance);
+            this.uxOptionsGroup.Controls.Add(this.uxSpecOrigAllowed);
+            this.uxOptionsGroup.Controls.Add(this.uxEnchantAllowed);
+            this.uxOptionsGroup.Controls.Add(this.uxEmbellishAllowed);
+            this.uxOptionsGroup.Location = new System.Drawing.Point(301, 27);
+            this.uxOptionsGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxOptionsGroup.Name = "uxOptionsGroup";
+            this.uxOptionsGroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxOptionsGroup.Size = new System.Drawing.Size(278, 88);
+            this.uxOptionsGroup.TabIndex = 3;
+            this.uxOptionsGroup.TabStop = false;
+            this.uxOptionsGroup.Text = "Extra Options";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(140, 61);
+            this.label3.Location = new System.Drawing.Point(130, 61);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(99, 13);
@@ -177,7 +185,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(140, 39);
+            this.label2.Location = new System.Drawing.Point(130, 39);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
@@ -187,7 +195,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(140, 18);
+            this.label1.Location = new System.Drawing.Point(130, 18);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
@@ -196,30 +204,33 @@
             // 
             // uxSpecOrigChance
             // 
-            this.uxSpecOrigChance.Location = new System.Drawing.Point(241, 59);
+            this.uxSpecOrigChance.Location = new System.Drawing.Point(233, 57);
             this.uxSpecOrigChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpecOrigChance.Name = "uxSpecOrigChance";
             this.uxSpecOrigChance.Size = new System.Drawing.Size(37, 20);
             this.uxSpecOrigChance.TabIndex = 5;
             this.uxSpecOrigChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.uxToolTip.SetToolTip(this.uxSpecOrigChance, "Chance for special origins");
             // 
             // uxEnchantChance
             // 
-            this.uxEnchantChance.Location = new System.Drawing.Point(241, 37);
+            this.uxEnchantChance.Location = new System.Drawing.Point(233, 35);
             this.uxEnchantChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEnchantChance.Name = "uxEnchantChance";
             this.uxEnchantChance.Size = new System.Drawing.Size(37, 20);
             this.uxEnchantChance.TabIndex = 4;
             this.uxEnchantChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.uxToolTip.SetToolTip(this.uxEnchantChance, "Chance for enchantments");
             // 
             // uxEmbelishChance
             // 
-            this.uxEmbelishChance.Location = new System.Drawing.Point(241, 16);
+            this.uxEmbelishChance.Location = new System.Drawing.Point(233, 14);
             this.uxEmbelishChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEmbelishChance.Name = "uxEmbelishChance";
             this.uxEmbelishChance.Size = new System.Drawing.Size(37, 20);
             this.uxEmbelishChance.TabIndex = 3;
             this.uxEmbelishChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.uxToolTip.SetToolTip(this.uxEmbelishChance, "Chance for embellishments");
             // 
             // uxSpecOrigAllowed
             // 
@@ -230,6 +241,8 @@
             this.uxSpecOrigAllowed.Size = new System.Drawing.Size(119, 17);
             this.uxSpecOrigAllowed.TabIndex = 2;
             this.uxSpecOrigAllowed.Text = "allow special origins";
+            this.uxToolTip.SetToolTip(this.uxSpecOrigAllowed, "Whether or not to potentially generate special origins for items. This will be fa" +
+        "irly generic");
             this.uxSpecOrigAllowed.UseVisualStyleBackColor = true;
             // 
             // uxEnchantAllowed
@@ -241,6 +254,7 @@
             this.uxEnchantAllowed.Size = new System.Drawing.Size(120, 17);
             this.uxEnchantAllowed.TabIndex = 1;
             this.uxEnchantAllowed.Text = "allow enchantments";
+            this.uxToolTip.SetToolTip(this.uxEnchantAllowed, "Whether or not to allow arcane enchantments on items.");
             this.uxEnchantAllowed.UseVisualStyleBackColor = true;
             // 
             // uxEmbellishAllowed
@@ -252,51 +266,55 @@
             this.uxEmbellishAllowed.Size = new System.Drawing.Size(122, 17);
             this.uxEmbellishAllowed.TabIndex = 0;
             this.uxEmbellishAllowed.Text = "allow embelishments";
+            this.uxToolTip.SetToolTip(this.uxEmbellishAllowed, "Whether or not to allow decorative embellishments on items");
             this.uxEmbellishAllowed.UseVisualStyleBackColor = true;
             // 
             // uxSpawnLoot
             // 
-            this.uxSpawnLoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.uxSpawnLoot.Location = new System.Drawing.Point(408, 119);
+            this.uxSpawnLoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.uxSpawnLoot.Location = new System.Drawing.Point(112, 18);
             this.uxSpawnLoot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpawnLoot.Name = "uxSpawnLoot";
-            this.uxSpawnLoot.Size = new System.Drawing.Size(68, 46);
+            this.uxSpawnLoot.Size = new System.Drawing.Size(60, 46);
             this.uxSpawnLoot.TabIndex = 4;
             this.uxSpawnLoot.Text = "Spawn Loot";
+            this.uxToolTip.SetToolTip(this.uxSpawnLoot, "Spawns loot with your current specifications. Won\'t remove loot already spawned");
             this.uxSpawnLoot.UseVisualStyleBackColor = true;
             // 
             // uxCLearLoot
             // 
-            this.uxCLearLoot.Enabled = false;
             this.uxCLearLoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.uxCLearLoot.Location = new System.Drawing.Point(480, 119);
+            this.uxCLearLoot.Location = new System.Drawing.Point(483, 89);
             this.uxCLearLoot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxCLearLoot.Name = "uxCLearLoot";
-            this.uxCLearLoot.Size = new System.Drawing.Size(73, 46);
+            this.uxCLearLoot.Size = new System.Drawing.Size(51, 53);
             this.uxCLearLoot.TabIndex = 5;
             this.uxCLearLoot.Text = "Clear Loot";
+            this.uxToolTip.SetToolTip(this.uxCLearLoot, "Clears the loot from the table below");
             this.uxCLearLoot.UseVisualStyleBackColor = true;
             // 
             // uxClearSelection
             // 
             this.uxClearSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.uxClearSelection.Location = new System.Drawing.Point(300, 119);
+            this.uxClearSelection.Location = new System.Drawing.Point(5, 18);
             this.uxClearSelection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxClearSelection.Name = "uxClearSelection";
             this.uxClearSelection.Size = new System.Drawing.Size(103, 23);
             this.uxClearSelection.TabIndex = 6;
             this.uxClearSelection.Text = "Clear Selection";
+            this.uxToolTip.SetToolTip(this.uxClearSelection, "Clears the selection to the left");
             this.uxClearSelection.UseVisualStyleBackColor = true;
             // 
             // uxSelectAll
             // 
             this.uxSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.uxSelectAll.Location = new System.Drawing.Point(300, 142);
+            this.uxSelectAll.Location = new System.Drawing.Point(5, 41);
             this.uxSelectAll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSelectAll.Name = "uxSelectAll";
             this.uxSelectAll.Size = new System.Drawing.Size(103, 23);
             this.uxSelectAll.TabIndex = 7;
             this.uxSelectAll.Text = "Select All";
+            this.uxToolTip.SetToolTip(this.uxSelectAll, "Selects all the boxes to the left");
             this.uxSelectAll.UseVisualStyleBackColor = true;
             // 
             // MenuStrip
@@ -305,7 +323,7 @@
             this.fileToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(600, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(588, 24);
             this.MenuStrip.TabIndex = 8;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -323,16 +341,67 @@
             this.uxOpenFile.Size = new System.Drawing.Size(180, 22);
             this.uxOpenFile.Text = "Open";
             // 
+            // uxToolTip
+            // 
+            this.uxToolTip.AutoPopDelay = 5000;
+            this.uxToolTip.InitialDelay = 1500;
+            this.uxToolTip.ReshowDelay = 100;
+            this.uxToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(180, 41);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(84, 20);
+            this.numericUpDown1.TabIndex = 9;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.uxToolTip.SetToolTip(this.numericUpDown1, "How many items of randomly generated loot to spawn.");
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label4.Location = new System.Drawing.Point(177, 22);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 19);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "loot amount:";
+            // 
+            // uxSpawningGroup
+            // 
+            this.uxSpawningGroup.Controls.Add(this.uxClearSelection);
+            this.uxSpawningGroup.Controls.Add(this.label4);
+            this.uxSpawningGroup.Controls.Add(this.uxSpawnLoot);
+            this.uxSpawningGroup.Controls.Add(this.numericUpDown1);
+            this.uxSpawningGroup.Controls.Add(this.uxSelectAll);
+            this.uxSpawningGroup.Location = new System.Drawing.Point(301, 124);
+            this.uxSpawningGroup.Name = "uxSpawningGroup";
+            this.uxSpawningGroup.Size = new System.Drawing.Size(278, 71);
+            this.uxSpawningGroup.TabIndex = 11;
+            this.uxSpawningGroup.TabStop = false;
+            this.uxSpawningGroup.Text = "Loot Spawning";
+            // 
             // LootSpawner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 379);
-            this.Controls.Add(this.uxSelectAll);
-            this.Controls.Add(this.uxClearSelection);
-            this.Controls.Add(this.uxCLearLoot);
-            this.Controls.Add(this.uxSpawnLoot);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(588, 379);
+            this.Controls.Add(this.uxSpawningGroup);
+            this.Controls.Add(this.uxOptionsGroup);
             this.Controls.Add(this.uxOutputGroup);
             this.Controls.Add(this.uxCategoryOptions);
             this.Controls.Add(this.MenuStrip);
@@ -341,13 +410,15 @@
             this.Name = "LootSpawner";
             this.Text = "Loot Spawner";
             this.uxOutputGroup.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.uxOptionsGroup.ResumeLayout(false);
+            this.uxOptionsGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxSpecOrigChance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEnchantChance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEmbelishChance)).EndInit();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.uxSpawningGroup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -358,7 +429,7 @@
         private System.Windows.Forms.CheckedListBox uxCategoryOptions;
         private System.Windows.Forms.ListBox uxResultsList;
         private System.Windows.Forms.GroupBox uxOutputGroup;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox uxOptionsGroup;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -380,6 +451,10 @@
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uxOpenFile;
+        private System.Windows.Forms.ToolTip uxToolTip;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox uxSpawningGroup;
     }
 }
 
