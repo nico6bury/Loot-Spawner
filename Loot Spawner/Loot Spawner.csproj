@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Category.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemOptions.cs" />
     <Compile Include="LootSpawner.cs">
       <SubType>Form</SubType>
     </Compile>
