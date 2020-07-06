@@ -194,11 +194,12 @@ namespace Loot_Spawner
         }//end AddQuantity(amount)
 
         /// <summary>
-        /// this method parses QuantSpec, using random numbers
+        /// this method parses QuantSpec, using random numbers.
         /// input must contain a number followed by the letter d.
-        /// Modifiers are accepted but not required
-        /// Also the dice part needs to be first
-        /// Also no parenthesis are allowed
+        /// Modifiers are accepted but not required.
+        /// Also the dice part needs to be first.
+        /// Also no parenthesis are allowed.
+        /// Also it only works with integers.
         /// </summary>
         /// <param name="quantityStr">the QuantSpec we're working with</param>
         /// <returns>returns evaluated QuantSpec</returns>
