@@ -21,6 +21,5 @@ namespace Loot_Spawner
         /// then you get the hashset, and that would certainly be nifty.
         /// </summary>
         public List<Item> Items { get; set; }
-
     }//end class
 }//end namespace

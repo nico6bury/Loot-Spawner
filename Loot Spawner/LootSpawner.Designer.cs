@@ -171,10 +171,12 @@
             this.uxOptionsGroup.TabIndex = 3;
             this.uxOptionsGroup.TabStop = false;
             this.uxOptionsGroup.Text = "Extra Options";
+            this.uxToolTip.SetToolTip(this.uxOptionsGroup, "Extra Options are not yet available.");
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Enabled = false;
             this.label3.Location = new System.Drawing.Point(130, 61);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
@@ -185,6 +187,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Enabled = false;
             this.label2.Location = new System.Drawing.Point(130, 39);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
@@ -195,6 +198,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Enabled = false;
             this.label1.Location = new System.Drawing.Point(130, 18);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
@@ -204,6 +208,7 @@
             // 
             // uxSpecOrigChance
             // 
+            this.uxSpecOrigChance.Enabled = false;
             this.uxSpecOrigChance.Location = new System.Drawing.Point(233, 57);
             this.uxSpecOrigChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpecOrigChance.Name = "uxSpecOrigChance";
@@ -214,6 +219,7 @@
             // 
             // uxEnchantChance
             // 
+            this.uxEnchantChance.Enabled = false;
             this.uxEnchantChance.Location = new System.Drawing.Point(233, 35);
             this.uxEnchantChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEnchantChance.Name = "uxEnchantChance";
@@ -224,6 +230,7 @@
             // 
             // uxEmbelishChance
             // 
+            this.uxEmbelishChance.Enabled = false;
             this.uxEmbelishChance.Location = new System.Drawing.Point(233, 14);
             this.uxEmbelishChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEmbelishChance.Name = "uxEmbelishChance";
@@ -235,6 +242,7 @@
             // uxSpecOrigAllowed
             // 
             this.uxSpecOrigAllowed.AutoSize = true;
+            this.uxSpecOrigAllowed.Enabled = false;
             this.uxSpecOrigAllowed.Location = new System.Drawing.Point(4, 60);
             this.uxSpecOrigAllowed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpecOrigAllowed.Name = "uxSpecOrigAllowed";
@@ -248,6 +256,7 @@
             // uxEnchantAllowed
             // 
             this.uxEnchantAllowed.AutoSize = true;
+            this.uxEnchantAllowed.Enabled = false;
             this.uxEnchantAllowed.Location = new System.Drawing.Point(4, 38);
             this.uxEnchantAllowed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEnchantAllowed.Name = "uxEnchantAllowed";
@@ -260,6 +269,7 @@
             // uxEmbellishAllowed
             // 
             this.uxEmbellishAllowed.AutoSize = true;
+            this.uxEmbellishAllowed.Enabled = false;
             this.uxEmbellishAllowed.Location = new System.Drawing.Point(4, 17);
             this.uxEmbellishAllowed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEmbellishAllowed.Name = "uxEmbellishAllowed";
@@ -405,9 +415,12 @@
             this.Controls.Add(this.uxOutputGroup);
             this.Controls.Add(this.uxCategoryOptions);
             this.Controls.Add(this.MenuStrip);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.MenuStrip;
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximizeBox = false;
             this.Name = "LootSpawner";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Loot Spawner";
             this.uxOutputGroup.ResumeLayout(false);
             this.uxOptionsGroup.ResumeLayout(false);
