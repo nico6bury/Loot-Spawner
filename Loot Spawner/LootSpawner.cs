@@ -16,6 +16,10 @@ using System.Windows.Forms;
 /// ItemOptions class for easy stuff like increase cost
 /// Third: Get embellishments working
 /// Fourth: Get enchantments working
+/// 
+/// Notes and TODOs:
+/// 1. make sure there can't be duplicate items in different categories
+/// 
 /// </summary>
 namespace Loot_Spawner
 {
@@ -44,7 +48,9 @@ namespace Loot_Spawner
         /// <param name="e">event arguments</param>
         public void SpawnLoot(object sender, EventArgs e)
         {
-            CreateLoot();
+            if (uxCategoryOptions.CheckedItems.Count > 0) CreateLoot();
+            else MessageBox.Show("You have no selected categories", "",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }//end SpawnLoot(sender, e)
 
         /// <summary>
@@ -62,6 +68,15 @@ namespace Loot_Spawner
                 Categories[index].SelectItem();
             }//end looping to select item for each lootAmount
 
+            DisplayActive();
+        }//end CreateLoot()
+
+        /// <summary>
+        /// Displays active items from all categories.
+        /// A useful helper method
+        /// </summary>
+        private void DisplayActive()
+        {
             //Grab all the items with active quantity and add them to list
             List<Item> DisplayList = new List<Item>();
             foreach (Category cat in Categories)
@@ -80,9 +95,11 @@ namespace Loot_Spawner
             uxResultsList.DataSource = null;
             uxResultsList.DataSource = DisplayList;
 
+            //make sure we don't have empty listbox.
+            if (uxResultsList.Items.Count == 0) uxOutputGroup.Enabled = false;
             //enable the group with all the output options
-            uxOutputGroup.Enabled = true;
-        }//end CreateLoot()
+            else uxOutputGroup.Enabled = true;
+        }//end DisplayActive
 
         /// <summary>
         /// The click event for uxSelectAll.
@@ -111,6 +128,141 @@ namespace Loot_Spawner
                 uxCategoryOptions.SetItemCheckState(i, (false ? CheckState.Checked : CheckState.Unchecked));
             }//end looping over each item in uxCategoryOptions
         }//end DeselectAllCats(sender, e)
+        
+        /// <summary>
+        /// Click event for uxShowDetail
+        /// Shows details for selected item
+        /// </summary>
+        public void ShowDetails(object sender, EventArgs e)
+        {
+            try
+            {
+                Item selected = uxResultsList.SelectedItem as Item;
+                //make sure the selected is an Item
+                if (selected == null) throw new ArgumentException();
+                StringBuilder message = new StringBuilder();
+                StringBuilder caption = new StringBuilder();
+                //build the caption for the message
+                caption.Append(selected.Name);
+                caption.Append("  x");
+                caption.Append(selected.Quantity);
+                //add cost and base cost to message
+                message.Append("Cost: ");
+                message.Append(selected.Cost);
+                message.Append("\t(Base Cost: ");
+                message.Append(selected.BaseCost);
+                message.Append(")\n");
+                //add weight to message
+                message.Append("Weight: ");
+                message.Append(selected.Weight);
+                message.Append(selected.WeightType);
+                message.Append("\n");
+                //add description to message
+                message.Append(selected.Description);
+
+                MessageBox.Show(message.ToString(), caption.ToString(), 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }//end try
+            catch
+            {
+                MessageBox.Show("I'm sorry, it appears that command is" +
+                    " unavailable with the current conditions", "Unexpected" +
+                    " Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }//end catch
+        }//end ShowDetails()
+
+        /// <summary>
+        /// Click event for uxAdjustQuantity
+        /// Allows user to adjust quantity
+        /// </summary>
+        public void AdjustQuantity(object sender, EventArgs e)
+        {
+            try
+            {
+                Item selected = uxResultsList.SelectedItem as Item;
+
+                //now we can get into asking the user what quantity they want
+                bool finished = false;
+                int Quant = -1;
+                while (!finished)
+                {
+                    string nQuant = Microsoft.VisualBasic.Interaction.InputBox("" +
+                    "What would you like this item's new quantity to be?", "Adjust" +
+                    " Quantity");
+                    try
+                    {
+                        if(nQuant == "") nQuant = selected.Quantity.ToString();
+                        Quant = Convert.ToInt32(nQuant);
+                        finished = true;
+                    }//end trying to convert quant to a integer
+                    catch
+                    {
+                        MessageBox.Show("It appears that you have entered something" +
+                            " which could not be interpreted as an integer. Please" +
+                            " enter an integer number with no spaces or letters.");
+                    }//end catching the user's error
+                }//end looping while getting input from the user
+
+                selected.SetQuantity(Quant);
+
+                //we still need to figure out which category this item is in, just to be efficient
+                Category foundCat = null;
+                for (int i = 0; i < Categories.Count && foundCat == null; i++)
+                {
+                    foreach (Item item in Categories[i].Inventory)
+                    {
+                        if (selected.Equals(item))
+                        {
+                            foundCat = Categories[i];
+                        }//end if selected equals this item
+                    }//end looping through each item of this cat's inven
+                }//end looping over each active item in categories
+                 //just in case something whack happens
+                if (foundCat == null) throw new ArgumentException();
+
+                //now that we've found the cat, we can update its inventory
+                foundCat.UpdateInventory();
+
+                //now we just need to display the changes that we made
+                DisplayActive();
+
+            }//end try
+            catch
+            {
+                MessageBox.Show("I'm sorry, it appears that command is" +
+                    " unavailable with the current conditions", "Unexpected" +
+                    " Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }//end catch
+
+        }//end AdjustQuantity()
+
+        /// <summary>
+        /// Click event for uxClearLoot
+        /// </summary>
+        public void ClearLoot(object sender, EventArgs e)
+        {
+            for(int i = 0; i < Categories.Count; i++)
+            {
+                Categories[i].ClearInventory();
+            }//end looping to clear each category
+            DisplayActive();
+        }//end ClearLoot()
+
+        /// <summary>
+        /// Click event for uxShowTotal
+        /// </summary>
+        public void ShowStats(object sender, EventArgs e)
+        {
+            MessageBox.Show("Feature not yet added");
+        }//end ShowStats()
+
+        /// <summary>
+        /// Click event for uxOutputToText
+        /// </summary>
+        public void OutputText(object sender, EventArgs e)
+        {
+            MessageBox.Show("Feature not yet added");
+        }//end OutputText()
 
         /// <summary>
         /// A testing method which will create my sample categories
@@ -125,11 +277,12 @@ namespace Loot_Spawner
             if (true)
             {
                 Categories.Add(new Category("Spices"));
-                double weight = 0.0625;
+                double weight = 1;
+                string wt = "oz";
                 string qs = "1d/2";
                 string descAdd0 = "As a spice, this item's quantity refers" +
-                    " to how many ounces there are. Weight is for one ounce," +
-                    " or one sixteenth of a pound. ";
+                    " to how many ounces there are. An ounce is one sixteenth" +
+                    " of a pound. ";
                 string descAdd1 = "An ounce of this, ground to a powder" +
                     " and scattered in the user’s path, will make anyone" +
                     " tracking him by scent have a fit of sneezing(see " +
@@ -167,46 +320,114 @@ namespace Loot_Spawner
                     " Using an ounce of it while dressing wounds gives +1" +
                     " to First Aid. ";
 
-                Categories[0].AddItem("Allspice",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Anise",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Annatto",113, weight, qs, descAdd0);
-                Categories[0].AddItem("Asafetida",75, weight, qs, descAdd0);
-                Categories[0].AddItem("Cardamom",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Cassia",75, weight, qs, descAdd0);
-                Categories[0].AddItem("Chiles",38, weight, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Cinnamon",150, weight, qs, descAdd0 + descAdd2);
-                Categories[0].AddItem("Clove",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Coriander",150, weight, qs, descAdd0 + descAdd3);
-                Categories[0].AddItem("Cumin",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Dwarven Savory Fungus",75, weight, qs, descAdd0 + descAdd4);
-                Categories[0].AddItem("Elven Pepperbark",38, weight, qs, descAdd0);
-                Categories[0].AddItem("Faerie Glimmerseed",270, weight, qs, descAdd0 + descAdd5);
-                Categories[0].AddItem("Fennel",75, weight, qs, descAdd0);
-                Categories[0].AddItem("Fenugreek",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Ginger",38, weight, qs, descAdd0 + descAdd6);
-                Categories[0].AddItem("Halfling Savory",150, weight, qs, descAdd0 + descAdd4);
-                Categories[0].AddItem("Huajiao (Szechuan Pepper)",150, weight, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Mace",225, weight, qs, descAdd0);
-                Categories[0].AddItem("Mustard",38, weight, qs, descAdd0);
-                Categories[0].AddItem("Nigella",75, weight, qs, descAdd0 + descAdd7);
-                Categories[0].AddItem("Nutmeg",150, weight, qs, descAdd0);
-                Categories[0].AddItem("Onion Seed",38, weight, qs, descAdd0);
-                Categories[0].AddItem("Orcish Firegrain",150, weight, qs, descAdd0 + descAdd8);
-                Categories[0].AddItem("Pepper, Black",150, weight, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Pepper, White",188, weight, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Poppy Seed",38, weight, qs, descAdd0);
-                Categories[0].AddItem("Saffron",300, weight, qs, descAdd0);
-                Categories[0].AddItem("Salt",15, weight, qs, descAdd0 + descAdd9);
-                Categories[0].AddItem("Salt, Black",38, weight, qs, descAdd0 + descAdd9);
-                Categories[0].AddItem("Salt, Red",38, weight, qs, descAdd0 + descAdd9);
-                Categories[0].AddItem("Sumac",38, weight, qs, descAdd0);
-                Categories[0].AddItem("Tamarind",15, weight, qs, descAdd0);
-                Categories[0].AddItem("Tumeric",38, weight, qs, descAdd0 + descAdd10);
-                Categories[0].AddItem("Zeodary",150, weight, qs, descAdd0);
+                Categories[0].AddItem("Allspice",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Anise",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Annatto",113, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Asafetida",75, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Cardamom",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Cassia",75, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Chiles",38, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[0].AddItem("Cinnamon",150, weight, wt, qs, descAdd0 + descAdd2);
+                Categories[0].AddItem("Clove",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Coriander",150, weight, wt, qs, descAdd0 + descAdd3);
+                Categories[0].AddItem("Cumin",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Dwarven Savory Fungus",75, weight, wt, qs, descAdd0 + descAdd4);
+                Categories[0].AddItem("Elven Pepperbark",38, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Faerie Glimmerseed",270, weight, wt, qs, descAdd0 + descAdd5);
+                Categories[0].AddItem("Fennel",75, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Fenugreek",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Ginger",38, weight, wt, qs, descAdd0 + descAdd6);
+                Categories[0].AddItem("Halfling Savory",150, weight, wt, qs, descAdd0 + descAdd4);
+                Categories[0].AddItem("Huajiao (Szechuan Pepper)",150, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[0].AddItem("Mace",225, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Mustard",38, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Nigella",75, weight, wt, qs, descAdd0 + descAdd7);
+                Categories[0].AddItem("Nutmeg",150, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Onion Seed",38, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Orcish Firegrain",150, weight, wt, qs, descAdd0 + descAdd8);
+                Categories[0].AddItem("Pepper, Black",150, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[0].AddItem("Pepper, White",188, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[0].AddItem("Poppy Seed",38, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Saffron",300, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Salt",15, weight, wt, qs, descAdd0 + descAdd9);
+                Categories[0].AddItem("Salt, Black",38, weight, wt, qs, descAdd0 + descAdd9);
+                Categories[0].AddItem("Salt, Red",38, weight, wt, qs, descAdd0 + descAdd9);
+                Categories[0].AddItem("Sumac",38, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Tamarind",15, weight, wt, qs, descAdd0);
+                Categories[0].AddItem("Tumeric",38, weight, wt, qs, descAdd0 + descAdd10);
+                Categories[0].AddItem("Zeodary",150, weight, wt, qs, descAdd0);
 
-                uxCategoryOptions.DataSource = Categories;
-            }//end if we're doing spices
-            
+            }//end spices
+            if (true)
+            {
+                Categories.Add(new Category("Other Materials"));
+                //weight
+                double w = 1;
+                string w1 = "gallon(s)";
+                string w2 = "pint(s)";
+                string w3 = "oz";
+                string qs = "1d+1";
+                string d0 = "A miscellaneous material. ";
+                string d1 = "Fermented alcoholic milk. ";
+                string d2 = "Produced from an unusual substance: " +
+                    "dissolved stardust, lotus nectar, fermented " +
+                    "demon’s blood. The wine has no immediate " +
+                    "supernatural properties like a potion, but " +
+                    "might be a valuable alchemical ingredient " +
+                    "or a treatment for specific magical afflictions. ";
+                string d3 = "Water lightly scented with flowers. ";
+                string d4 = "An alcohol solution scented with flowers," +
+                    " spices, and/or resins. ";
+                string d5 = "A perfumed vegetable oil or animal fat. ";
+                string d6 = "An object coated with or containing perfume" +
+                    " elements. ";
+                string d7 = "A very expensive insect-derived red. ";
+                string d8 = "A vivid-red mineral pigment. ";
+                string d9 = "A deep-blue vegetable dye. ";
+                string d10 = "A relatively inexpensive red vegetable dye. ";
+                string d11 = "A rare purple-red derived from mollusks. ";
+                string d12 = "A yellow mineral pigment. ";
+                string d13 = "A pale-blue vegetable dye related to indigo. ";
+                Categories[1].AddItem("Ale", 5, w, w1, qs, d0);
+                Categories[1].AddItem("Distilled Liquor", 16, w, w2, qs, d0);
+                Categories[1].AddItem("Flavored Ale", 7, w, w1, qs, d0);
+                Categories[1].AddItem("Flavored Brandy", 20, w, w2, qs, d0);
+                Categories[1].AddItem("Kumiz", 15, w, w1, qs, d1);
+                Categories[1].AddItem("Mead", 11, w, w1, qs, d0);
+                Categories[1].AddItem("Opium", 20, w, w3, qs, d0);
+                Categories[1].AddItem("Tea, Black", 2, w, w3, qs, d0);
+                Categories[1].AddItem("Tea, Green", 2, w, w3, qs, d0);
+                Categories[1].AddItem("Wine, Date", 9, w, w1, qs, d0);
+                Categories[1].AddItem("Wine, Grape", 9, w, w1, qs, d0);
+                Categories[1].AddItem("Wine, Rice", 8, w, w1, qs, d0);
+                Categories[1].AddItem("Wine, Otherworldly", 20, w, w1, qs, d2);
+                Categories[1].AddItem("Sealing Wax", 1, w, w3, qs, d0);
+                Categories[1].AddItem("Ambergris", 35, w, w3, qs, d0);
+                Categories[1].AddItem("Cedar Resin", 10, w, w3, qs, d0);
+                Categories[1].AddItem("Copal", 11, w, w3, qs, d0);
+                Categories[1].AddItem("Frankincense", 16, w, w3, qs, d0);
+                Categories[1].AddItem("Musk", 28, w, w3, qs, d0);
+                Categories[1].AddItem("Myrrh", 15, w, w3, qs, d0);
+                Categories[1].AddItem("Onycha", 20, w, w3, qs, d0);
+                Categories[1].AddItem("Patchouli", 9, w, w3, qs, d0);
+                Categories[1].AddItem("Sandalwood Gum", 8, w, w3, qs, d0);
+                Categories[1].AddItem("Flower Water", 5, w, w3, qs, d3);
+                Categories[1].AddItem("Perfumed Essence", 12, w, w3, qs, d4);
+                Categories[1].AddItem("Perfumed Oil", 8, w, w3, qs, d5);
+                Categories[1].AddItem("Pomander", 9, w, w3, qs, d6);
+                Categories[1].AddItem("Carmine", 40, w, w3, qs, d7);
+                Categories[1].AddItem("Cinnabar", 18, w, w3, qs, d8);
+                Categories[1].AddItem("Ochre", 1, w, w3, qs, d0);
+                Categories[1].AddItem("Henna", 1, w, w3, qs, d0);
+                Categories[1].AddItem("Indigo", 32, w, w3, qs, d9);
+                Categories[1].AddItem("Madder", 2, w, w3, qs, d10);
+                Categories[1].AddItem("Murex", 29, w, w3, qs, d11);
+                Categories[1].AddItem("Orpiment", 22, w, w3, qs, d12);
+                Categories[1].AddItem("Woad", 2, w, w3, qs, d13);
+
+            }//end other materials
+            uxCategoryOptions.DataSource = Categories;
+            SelectAllCats(null, null);
         }//end CreateCats()
     }//end partial class LootSpawner
 }//end namespace

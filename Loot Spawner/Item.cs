@@ -46,6 +46,12 @@ namespace Loot_Spawner
         /// </summary>
         public double Weight { get; set; }
         /// <summary>
+        /// The unit of measurement for the weight of this item.
+        /// So for instance if the weight is in pounds, then this
+        /// should be "lbs"
+        /// </summary>
+        public string WeightType { get; set; }
+        /// <summary>
         /// this represents how many of this particular item exist in
         /// our inventory at the moment. This doesn't affect anything
         /// within this class other than displaying in the ToString and
@@ -107,13 +113,15 @@ namespace Loot_Spawner
         /// <param name="baseCost">the base cost of this item</param>
         /// <param name="weight">the weight of this item</param>
         /// <param name="quantSpec">the QuantSpec of this item</param>
-        public Item(string name, string description, int baseCost, double weight, string quantSpec)
+        public Item(string name, string description, int baseCost, double weight,
+            string weightType, string quantSpec)
         {
             this.Name = name;
             this.Description = description;
             this.BaseCost = baseCost;
             this.Cost = baseCost;
             this.Weight = weight;
+            this.WeightType = weightType;
             this.Quantity = 0;
             this.QuantSpec = quantSpec;
         }//end 5-arg constructor for nondefault QuantSpec
@@ -135,8 +143,9 @@ namespace Loot_Spawner
                 && this.Description.Equals(item.Description)
                 && this.BaseCost.Equals(item.BaseCost)
                 && this.Weight.Equals(item.Weight)
-                //&& this.Enchants.Equals(item.Enchants)
+                && this.WeightType.Equals(item.WeightType)
                 //&& this.Embellishments.Equals(item.Embellishments)
+                //&& this.Enchants.Equals(item.Enchants)
                 ;
         }//end Equals(item)
 
@@ -159,7 +168,7 @@ namespace Loot_Spawner
             output.Append(Cost);
             output.Append("; ");
             output.Append(string.Format("{0:0.####}", Weight));
-            output.Append(" lbs");
+            output.Append(WeightType);
 
             return output.ToString();
         }//end ToString()
@@ -192,6 +201,18 @@ namespace Loot_Spawner
                 }//end looping amount times
             }//end else we must observe QuantSpec
         }//end AddQuantity(amount)
+
+        /// <summary>
+        /// Allows you to set this items quantity to a specific number
+        /// If you want Inventory to be updated, then use the method
+        /// from Category
+        /// </summary>
+        /// <param name="nQuant">new quantity for this item</param>
+        public void SetQuantity(int nQuant)
+        {
+            Quantity = nQuant;
+            if(Quantity < 1) Quantity = 0;
+        }//end SetQuantity(nQuant)
 
         /// <summary>
         /// this method parses QuantSpec, using random numbers.

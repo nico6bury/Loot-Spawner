@@ -82,10 +82,37 @@ namespace Loot_Spawner
         /// item. Leave as empty string if none</param>
         /// <param name="description">description of the item</param>
         public void AddItem(string name, int cost, double weight, 
-            string quantSpec, string description)
+            string weightType, string quantSpec, string description)
         {
-            Items.Add(new Item(name, description, cost, weight, quantSpec));
+            Items.Add(new Item(name, description, cost, weight, weightType, quantSpec));
         }//end AddItem(name, cost, weight, description)
+
+        /// <summary>
+        /// Method allows you to adjust an item's quantity
+        /// while also updating the Inventory HashSet
+        /// </summary>
+        /// <param name="nQuant"></param>
+        /// <param name="item"></param>
+        public void AdjustItemQuantity(int nQuant, Item item)
+        {
+            if (!Items.Contains(item)) throw new ArgumentException();
+            item.SetQuantity(nQuant);
+            if (nQuant < 1) Inventory.Remove(item);
+            else Inventory.Add(item);
+        }//end AdjustItemQuantity(nQuant, item)
+
+        /// <summary>
+        /// Auto-updates every entry in the inventory.
+        /// </summary>
+        public void UpdateInventory()
+        {
+            HashSet<Item> newInventory = new HashSet<Item>();
+            for(int i = 0; i < Items.Count; i++)
+            {
+                if (Items[i].Quantity > 0) newInventory.Add(Items[i]);
+            }//end looping over each item
+            Inventory = newInventory;
+        }//end UpdateInventory
 
         /// <summary>
         /// This method randomly selects an Item from the Items

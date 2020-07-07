@@ -33,8 +33,6 @@
             this.uxResultsList = new System.Windows.Forms.ListBox();
             this.uxOutputGroup = new System.Windows.Forms.GroupBox();
             this.uxOutputToText = new System.Windows.Forms.Button();
-            this.uxRemoveEntirety = new System.Windows.Forms.Button();
-            this.uxRemoveQuantity = new System.Windows.Forms.Button();
             this.uxShowTotal = new System.Windows.Forms.Button();
             this.uxShowDetail = new System.Windows.Forms.Button();
             this.uxOptionsGroup = new System.Windows.Forms.GroupBox();
@@ -58,6 +56,7 @@
             this.uxLootAmount = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.uxSpawningGroup = new System.Windows.Forms.GroupBox();
+            this.uxAdjustQuantity = new System.Windows.Forms.Button();
             this.uxOutputGroup.SuspendLayout();
             this.uxOptionsGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxSpecOrigChance)).BeginInit();
@@ -70,7 +69,7 @@
             // 
             // uxCategoryOptions
             // 
-            this.uxCategoryOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.uxCategoryOptions.Font = new System.Drawing.Font("Liberation Serif", 10F);
             this.uxCategoryOptions.FormattingEnabled = true;
             this.uxCategoryOptions.Location = new System.Drawing.Point(11, 26);
             this.uxCategoryOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -80,92 +79,80 @@
             // 
             // uxResultsList
             // 
-            this.uxResultsList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.uxResultsList.Font = new System.Drawing.Font("Times New Roman", 13F);
             this.uxResultsList.FormattingEnabled = true;
-            this.uxResultsList.ItemHeight = 16;
-            this.uxResultsList.Location = new System.Drawing.Point(4, 17);
+            this.uxResultsList.ItemHeight = 19;
+            this.uxResultsList.Location = new System.Drawing.Point(4, 23);
             this.uxResultsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxResultsList.Name = "uxResultsList";
-            this.uxResultsList.Size = new System.Drawing.Size(282, 132);
+            this.uxResultsList.Size = new System.Drawing.Size(348, 194);
             this.uxResultsList.TabIndex = 1;
             // 
             // uxOutputGroup
             // 
+            this.uxOutputGroup.Controls.Add(this.uxAdjustQuantity);
             this.uxOutputGroup.Controls.Add(this.uxOutputToText);
-            this.uxOutputGroup.Controls.Add(this.uxRemoveEntirety);
-            this.uxOutputGroup.Controls.Add(this.uxRemoveQuantity);
             this.uxOutputGroup.Controls.Add(this.uxShowTotal);
             this.uxOutputGroup.Controls.Add(this.uxCLearLoot);
             this.uxOutputGroup.Controls.Add(this.uxShowDetail);
             this.uxOutputGroup.Controls.Add(this.uxResultsList);
             this.uxOutputGroup.Enabled = false;
-            this.uxOutputGroup.Location = new System.Drawing.Point(11, 200);
+            this.uxOutputGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.uxOutputGroup.Location = new System.Drawing.Point(11, 199);
             this.uxOutputGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOutputGroup.Name = "uxOutputGroup";
             this.uxOutputGroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.uxOutputGroup.Size = new System.Drawing.Size(568, 171);
+            this.uxOutputGroup.Size = new System.Drawing.Size(568, 235);
             this.uxOutputGroup.TabIndex = 2;
             this.uxOutputGroup.TabStop = false;
             this.uxOutputGroup.Text = "Ouput Options";
             // 
             // uxOutputToText
             // 
-            this.uxOutputToText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uxOutputToText.Location = new System.Drawing.Point(444, 34);
+            this.uxOutputToText.Font = new System.Drawing.Font("Times New Roman", 14F);
+            this.uxOutputToText.Location = new System.Drawing.Point(471, 161);
             this.uxOutputToText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOutputToText.Name = "uxOutputToText";
-            this.uxOutputToText.Size = new System.Drawing.Size(88, 52);
+            this.uxOutputToText.Size = new System.Drawing.Size(89, 56);
             this.uxOutputToText.TabIndex = 6;
             this.uxOutputToText.Text = "Output to Text";
             this.uxOutputToText.UseVisualStyleBackColor = true;
-            // 
-            // uxRemoveEntirety
-            // 
-            this.uxRemoveEntirety.Location = new System.Drawing.Point(326, 120);
-            this.uxRemoveEntirety.Name = "uxRemoveEntirety";
-            this.uxRemoveEntirety.Size = new System.Drawing.Size(150, 23);
-            this.uxRemoveEntirety.TabIndex = 5;
-            this.uxRemoveEntirety.Text = "remove entirety of selected";
-            this.uxRemoveEntirety.UseVisualStyleBackColor = true;
-            // 
-            // uxRemoveQuantity
-            // 
-            this.uxRemoveQuantity.Location = new System.Drawing.Point(326, 91);
-            this.uxRemoveQuantity.Name = "uxRemoveQuantity";
-            this.uxRemoveQuantity.Size = new System.Drawing.Size(150, 23);
-            this.uxRemoveQuantity.TabIndex = 4;
-            this.uxRemoveQuantity.Text = "remove quantity of selected";
-            this.uxRemoveQuantity.UseVisualStyleBackColor = true;
+            this.uxOutputToText.Click += new System.EventHandler(this.OutputText);
             // 
             // uxShowTotal
             // 
-            this.uxShowTotal.Location = new System.Drawing.Point(326, 63);
+            this.uxShowTotal.Font = new System.Drawing.Font("Times New Roman", 14F);
+            this.uxShowTotal.Location = new System.Drawing.Point(357, 161);
             this.uxShowTotal.Name = "uxShowTotal";
-            this.uxShowTotal.Size = new System.Drawing.Size(113, 23);
+            this.uxShowTotal.Size = new System.Drawing.Size(90, 56);
             this.uxShowTotal.TabIndex = 3;
-            this.uxShowTotal.Text = "show total stats";
+            this.uxShowTotal.Text = "Total Stats";
             this.uxShowTotal.UseVisualStyleBackColor = true;
+            this.uxShowTotal.Click += new System.EventHandler(this.ShowStats);
             // 
             // uxShowDetail
             // 
-            this.uxShowDetail.Location = new System.Drawing.Point(326, 34);
+            this.uxShowDetail.Font = new System.Drawing.Font("Times New Roman", 14F);
+            this.uxShowDetail.Location = new System.Drawing.Point(357, 23);
             this.uxShowDetail.Name = "uxShowDetail";
-            this.uxShowDetail.Size = new System.Drawing.Size(113, 23);
+            this.uxShowDetail.Size = new System.Drawing.Size(90, 56);
             this.uxShowDetail.TabIndex = 2;
-            this.uxShowDetail.Text = "show detailed info";
+            this.uxShowDetail.Text = "Item Details";
             this.uxShowDetail.UseVisualStyleBackColor = true;
+            this.uxShowDetail.Click += new System.EventHandler(this.ShowDetails);
             // 
             // uxOptionsGroup
             // 
             this.uxOptionsGroup.Controls.Add(this.label3);
             this.uxOptionsGroup.Controls.Add(this.label2);
-            this.uxOptionsGroup.Controls.Add(this.label1);
-            this.uxOptionsGroup.Controls.Add(this.uxSpecOrigChance);
-            this.uxOptionsGroup.Controls.Add(this.uxEnchantChance);
-            this.uxOptionsGroup.Controls.Add(this.uxEmbelishChance);
-            this.uxOptionsGroup.Controls.Add(this.uxSpecOrigAllowed);
             this.uxOptionsGroup.Controls.Add(this.uxEnchantAllowed);
             this.uxOptionsGroup.Controls.Add(this.uxEmbellishAllowed);
+            this.uxOptionsGroup.Controls.Add(this.label1);
+            this.uxOptionsGroup.Controls.Add(this.uxSpecOrigAllowed);
+            this.uxOptionsGroup.Controls.Add(this.uxEmbelishChance);
+            this.uxOptionsGroup.Controls.Add(this.uxSpecOrigChance);
+            this.uxOptionsGroup.Controls.Add(this.uxEnchantChance);
+            this.uxOptionsGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.uxOptionsGroup.Location = new System.Drawing.Point(301, 107);
             this.uxOptionsGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOptionsGroup.Name = "uxOptionsGroup";
@@ -180,7 +167,8 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Enabled = false;
-            this.label3.Location = new System.Drawing.Point(130, 61);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label3.Location = new System.Drawing.Point(133, 66);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(99, 13);
@@ -191,7 +179,8 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(130, 39);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label2.Location = new System.Drawing.Point(133, 44);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
@@ -202,7 +191,8 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(130, 18);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label1.Location = new System.Drawing.Point(133, 23);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
@@ -212,7 +202,8 @@
             // uxSpecOrigChance
             // 
             this.uxSpecOrigChance.Enabled = false;
-            this.uxSpecOrigChance.Location = new System.Drawing.Point(233, 57);
+            this.uxSpecOrigChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.uxSpecOrigChance.Location = new System.Drawing.Point(236, 62);
             this.uxSpecOrigChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpecOrigChance.Name = "uxSpecOrigChance";
             this.uxSpecOrigChance.Size = new System.Drawing.Size(37, 20);
@@ -223,7 +214,8 @@
             // uxEnchantChance
             // 
             this.uxEnchantChance.Enabled = false;
-            this.uxEnchantChance.Location = new System.Drawing.Point(233, 35);
+            this.uxEnchantChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.uxEnchantChance.Location = new System.Drawing.Point(236, 40);
             this.uxEnchantChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEnchantChance.Name = "uxEnchantChance";
             this.uxEnchantChance.Size = new System.Drawing.Size(37, 20);
@@ -234,7 +226,8 @@
             // uxEmbelishChance
             // 
             this.uxEmbelishChance.Enabled = false;
-            this.uxEmbelishChance.Location = new System.Drawing.Point(233, 14);
+            this.uxEmbelishChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.uxEmbelishChance.Location = new System.Drawing.Point(236, 19);
             this.uxEmbelishChance.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEmbelishChance.Name = "uxEmbelishChance";
             this.uxEmbelishChance.Size = new System.Drawing.Size(37, 20);
@@ -246,7 +239,8 @@
             // 
             this.uxSpecOrigAllowed.AutoSize = true;
             this.uxSpecOrigAllowed.Enabled = false;
-            this.uxSpecOrigAllowed.Location = new System.Drawing.Point(4, 60);
+            this.uxSpecOrigAllowed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.uxSpecOrigAllowed.Location = new System.Drawing.Point(7, 65);
             this.uxSpecOrigAllowed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpecOrigAllowed.Name = "uxSpecOrigAllowed";
             this.uxSpecOrigAllowed.Size = new System.Drawing.Size(119, 17);
@@ -260,7 +254,8 @@
             // 
             this.uxEnchantAllowed.AutoSize = true;
             this.uxEnchantAllowed.Enabled = false;
-            this.uxEnchantAllowed.Location = new System.Drawing.Point(4, 38);
+            this.uxEnchantAllowed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.uxEnchantAllowed.Location = new System.Drawing.Point(7, 43);
             this.uxEnchantAllowed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEnchantAllowed.Name = "uxEnchantAllowed";
             this.uxEnchantAllowed.Size = new System.Drawing.Size(120, 17);
@@ -273,7 +268,8 @@
             // 
             this.uxEmbellishAllowed.AutoSize = true;
             this.uxEmbellishAllowed.Enabled = false;
-            this.uxEmbellishAllowed.Location = new System.Drawing.Point(4, 17);
+            this.uxEmbellishAllowed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.uxEmbellishAllowed.Location = new System.Drawing.Point(7, 22);
             this.uxEmbellishAllowed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxEmbellishAllowed.Name = "uxEmbellishAllowed";
             this.uxEmbellishAllowed.Size = new System.Drawing.Size(122, 17);
@@ -284,7 +280,7 @@
             // 
             // uxSpawnLoot
             // 
-            this.uxSpawnLoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.uxSpawnLoot.Font = new System.Drawing.Font("Liberation Serif", 10F);
             this.uxSpawnLoot.Location = new System.Drawing.Point(112, 18);
             this.uxSpawnLoot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSpawnLoot.Name = "uxSpawnLoot";
@@ -297,19 +293,20 @@
             // 
             // uxCLearLoot
             // 
-            this.uxCLearLoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.uxCLearLoot.Location = new System.Drawing.Point(481, 90);
+            this.uxCLearLoot.Font = new System.Drawing.Font("Times New Roman", 14F);
+            this.uxCLearLoot.Location = new System.Drawing.Point(357, 94);
             this.uxCLearLoot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxCLearLoot.Name = "uxCLearLoot";
-            this.uxCLearLoot.Size = new System.Drawing.Size(51, 53);
+            this.uxCLearLoot.Size = new System.Drawing.Size(203, 50);
             this.uxCLearLoot.TabIndex = 5;
             this.uxCLearLoot.Text = "Clear Loot";
             this.uxToolTip.SetToolTip(this.uxCLearLoot, "Clears the loot from the table below");
             this.uxCLearLoot.UseVisualStyleBackColor = true;
+            this.uxCLearLoot.Click += new System.EventHandler(this.ClearLoot);
             // 
             // uxClearSelection
             // 
-            this.uxClearSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.uxClearSelection.Font = new System.Drawing.Font("Liberation Serif", 9F);
             this.uxClearSelection.Location = new System.Drawing.Point(5, 18);
             this.uxClearSelection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxClearSelection.Name = "uxClearSelection";
@@ -322,7 +319,7 @@
             // 
             // uxSelectAll
             // 
-            this.uxSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.uxSelectAll.Font = new System.Drawing.Font("Liberation Serif", 9F);
             this.uxSelectAll.Location = new System.Drawing.Point(5, 41);
             this.uxSelectAll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxSelectAll.Name = "uxSelectAll";
@@ -339,7 +336,7 @@
             this.fileToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(588, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(589, 24);
             this.MenuStrip.TabIndex = 8;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -366,6 +363,7 @@
             // 
             // uxLootAmount
             // 
+            this.uxLootAmount.Font = new System.Drawing.Font("Liberation Serif", 10F);
             this.uxLootAmount.Location = new System.Drawing.Point(180, 41);
             this.uxLootAmount.Maximum = new decimal(new int[] {
             99,
@@ -378,7 +376,7 @@
             0,
             0});
             this.uxLootAmount.Name = "uxLootAmount";
-            this.uxLootAmount.Size = new System.Drawing.Size(84, 20);
+            this.uxLootAmount.Size = new System.Drawing.Size(84, 23);
             this.uxLootAmount.TabIndex = 9;
             this.uxLootAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.uxToolTip.SetToolTip(this.uxLootAmount, "How many items of randomly generated loot to spawn.");
@@ -390,7 +388,7 @@
             // 
             // label4
             // 
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label4.Font = new System.Drawing.Font("Liberation Serif", 10F);
             this.label4.Location = new System.Drawing.Point(177, 22);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(87, 19);
@@ -404,18 +402,30 @@
             this.uxSpawningGroup.Controls.Add(this.uxSpawnLoot);
             this.uxSpawningGroup.Controls.Add(this.uxLootAmount);
             this.uxSpawningGroup.Controls.Add(this.uxSelectAll);
+            this.uxSpawningGroup.Font = new System.Drawing.Font("Liberation Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxSpawningGroup.Location = new System.Drawing.Point(302, 26);
             this.uxSpawningGroup.Name = "uxSpawningGroup";
-            this.uxSpawningGroup.Size = new System.Drawing.Size(278, 71);
+            this.uxSpawningGroup.Size = new System.Drawing.Size(277, 71);
             this.uxSpawningGroup.TabIndex = 11;
             this.uxSpawningGroup.TabStop = false;
             this.uxSpawningGroup.Text = "Loot Spawning";
+            // 
+            // uxAdjustQuantity
+            // 
+            this.uxAdjustQuantity.Font = new System.Drawing.Font("Times New Roman", 14F);
+            this.uxAdjustQuantity.Location = new System.Drawing.Point(470, 23);
+            this.uxAdjustQuantity.Name = "uxAdjustQuantity";
+            this.uxAdjustQuantity.Size = new System.Drawing.Size(90, 56);
+            this.uxAdjustQuantity.TabIndex = 7;
+            this.uxAdjustQuantity.Text = "Adjust Quantity";
+            this.uxAdjustQuantity.UseVisualStyleBackColor = true;
+            this.uxAdjustQuantity.Click += new System.EventHandler(this.AdjustQuantity);
             // 
             // LootSpawner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 379);
+            this.ClientSize = new System.Drawing.Size(589, 441);
             this.Controls.Add(this.uxSpawningGroup);
             this.Controls.Add(this.uxOptionsGroup);
             this.Controls.Add(this.uxOutputGroup);
@@ -462,8 +472,6 @@
         private System.Windows.Forms.Button uxSpawnLoot;
         private System.Windows.Forms.Button uxCLearLoot;
         private System.Windows.Forms.Button uxOutputToText;
-        private System.Windows.Forms.Button uxRemoveEntirety;
-        private System.Windows.Forms.Button uxRemoveQuantity;
         private System.Windows.Forms.Button uxShowTotal;
         private System.Windows.Forms.Button uxShowDetail;
         private System.Windows.Forms.Button uxClearSelection;
@@ -475,6 +483,7 @@
         private System.Windows.Forms.NumericUpDown uxLootAmount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox uxSpawningGroup;
+        private System.Windows.Forms.Button uxAdjustQuantity;
     }
 }
 
