@@ -44,7 +44,7 @@ namespace Loot_Spawner
         /// this is the weight of the item. This takes into account
         /// all modifiers. There is no base weight, so be careful
         /// </summary>
-        public decimal Weight { get; set; }
+        public double Weight { get; set; }
         /// <summary>
         /// this represents how many of this particular item exist in
         /// our inventory at the moment. This doesn't affect anything
@@ -87,7 +87,7 @@ namespace Loot_Spawner
         /// <param name="description">the description of ths item</param>
         /// <param name="baseCost">the base cost of this item</param>
         /// <param name="weight">the weight of this item in pounds</param>
-        public Item(string name, string description, int baseCost, decimal weight)
+        public Item(string name, string description, int baseCost, double weight)
         {
             this.Name = name;
             this.Description = description;
@@ -107,7 +107,7 @@ namespace Loot_Spawner
         /// <param name="baseCost">the base cost of this item</param>
         /// <param name="weight">the weight of this item</param>
         /// <param name="quantSpec">the QuantSpec of this item</param>
-        public Item(string name, string description, int baseCost, decimal weight, string quantSpec)
+        public Item(string name, string description, int baseCost, double weight, string quantSpec)
         {
             this.Name = name;
             this.Description = description;
@@ -158,7 +158,7 @@ namespace Loot_Spawner
             output.Append("$");
             output.Append(Cost);
             output.Append("; ");
-            output.Append(string.Format("{0:0.#}", Weight));
+            output.Append(string.Format("{0:0.####}", Weight));
             output.Append(" lbs");
 
             return output.ToString();
@@ -255,6 +255,8 @@ namespace Loot_Spawner
                         //a digit
                         if (Char.IsDigit(quantityStr[i]))
                         {
+                            //section below will cause a crash if modnum if empty at this point
+                            modNum.Append(quantityStr[i]);
                             //code below is copied and pasted from section if current is operator
                             if (operatorMode == 1)
                             {
@@ -270,11 +272,12 @@ namespace Loot_Spawner
                             }//end else if operator is multiplication
                             else if (operatorMode == 4)
                             {
+                                runningTotal++;
                                 runningTotal /= Convert.ToInt32(modNum.ToString());
                             }//end else if operator is division
                         }//end if last thing processable
                     }//end if we're on the last one
-                    if (Char.IsDigit(quantityStr[i]))
+                    else if (Char.IsDigit(quantityStr[i]))
                     {
                         //if there's an active operator mode, add this
                         //number to the SB. Otherwise, ignore it
@@ -341,7 +344,7 @@ namespace Loot_Spawner
                     }//end else we'll just assume this is an operator
                 }//end else we've moved on to the operators
             }//end looping over each character in quantityStr
-
+            if (runningTotal < 1) runningTotal = 1;
             return runningTotal;
         }//end ParseQuantity
 

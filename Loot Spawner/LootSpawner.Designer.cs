@@ -55,7 +55,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uxOpenFile = new System.Windows.Forms.ToolStripMenuItem();
             this.uxToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.uxLootAmount = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.uxSpawningGroup = new System.Windows.Forms.GroupBox();
             this.uxOutputGroup.SuspendLayout();
@@ -64,12 +64,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxEnchantChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxEmbelishChance)).BeginInit();
             this.MenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.uxLootAmount)).BeginInit();
             this.uxSpawningGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // uxCategoryOptions
             // 
+            this.uxCategoryOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.uxCategoryOptions.FormattingEnabled = true;
             this.uxCategoryOptions.Location = new System.Drawing.Point(11, 26);
             this.uxCategoryOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -79,11 +80,13 @@
             // 
             // uxResultsList
             // 
+            this.uxResultsList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.uxResultsList.FormattingEnabled = true;
+            this.uxResultsList.ItemHeight = 16;
             this.uxResultsList.Location = new System.Drawing.Point(4, 17);
             this.uxResultsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxResultsList.Name = "uxResultsList";
-            this.uxResultsList.Size = new System.Drawing.Size(282, 147);
+            this.uxResultsList.Size = new System.Drawing.Size(282, 132);
             this.uxResultsList.TabIndex = 1;
             // 
             // uxOutputGroup
@@ -163,7 +166,7 @@
             this.uxOptionsGroup.Controls.Add(this.uxSpecOrigAllowed);
             this.uxOptionsGroup.Controls.Add(this.uxEnchantAllowed);
             this.uxOptionsGroup.Controls.Add(this.uxEmbellishAllowed);
-            this.uxOptionsGroup.Location = new System.Drawing.Point(301, 27);
+            this.uxOptionsGroup.Location = new System.Drawing.Point(301, 107);
             this.uxOptionsGroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxOptionsGroup.Name = "uxOptionsGroup";
             this.uxOptionsGroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -290,6 +293,7 @@
             this.uxSpawnLoot.Text = "Spawn Loot";
             this.uxToolTip.SetToolTip(this.uxSpawnLoot, "Spawns loot with your current specifications. Won\'t remove loot already spawned");
             this.uxSpawnLoot.UseVisualStyleBackColor = true;
+            this.uxSpawnLoot.Click += new System.EventHandler(this.SpawnLoot);
             // 
             // uxCLearLoot
             // 
@@ -314,6 +318,7 @@
             this.uxClearSelection.Text = "Clear Selection";
             this.uxToolTip.SetToolTip(this.uxClearSelection, "Clears the selection to the left");
             this.uxClearSelection.UseVisualStyleBackColor = true;
+            this.uxClearSelection.Click += new System.EventHandler(this.DeselectAllCats);
             // 
             // uxSelectAll
             // 
@@ -326,6 +331,7 @@
             this.uxSelectAll.Text = "Select All";
             this.uxToolTip.SetToolTip(this.uxSelectAll, "Selects all the boxes to the left");
             this.uxSelectAll.UseVisualStyleBackColor = true;
+            this.uxSelectAll.Click += new System.EventHandler(this.SelectAllCats);
             // 
             // MenuStrip
             // 
@@ -358,25 +364,25 @@
             this.uxToolTip.ReshowDelay = 100;
             this.uxToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // numericUpDown1
+            // uxLootAmount
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(180, 41);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.uxLootAmount.Location = new System.Drawing.Point(180, 41);
+            this.uxLootAmount.Maximum = new decimal(new int[] {
             99,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.uxLootAmount.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(84, 20);
-            this.numericUpDown1.TabIndex = 9;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.uxToolTip.SetToolTip(this.numericUpDown1, "How many items of randomly generated loot to spawn.");
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.uxLootAmount.Name = "uxLootAmount";
+            this.uxLootAmount.Size = new System.Drawing.Size(84, 20);
+            this.uxLootAmount.TabIndex = 9;
+            this.uxLootAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.uxToolTip.SetToolTip(this.uxLootAmount, "How many items of randomly generated loot to spawn.");
+            this.uxLootAmount.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -396,9 +402,9 @@
             this.uxSpawningGroup.Controls.Add(this.uxClearSelection);
             this.uxSpawningGroup.Controls.Add(this.label4);
             this.uxSpawningGroup.Controls.Add(this.uxSpawnLoot);
-            this.uxSpawningGroup.Controls.Add(this.numericUpDown1);
+            this.uxSpawningGroup.Controls.Add(this.uxLootAmount);
             this.uxSpawningGroup.Controls.Add(this.uxSelectAll);
-            this.uxSpawningGroup.Location = new System.Drawing.Point(301, 124);
+            this.uxSpawningGroup.Location = new System.Drawing.Point(302, 26);
             this.uxSpawningGroup.Name = "uxSpawningGroup";
             this.uxSpawningGroup.Size = new System.Drawing.Size(278, 71);
             this.uxSpawningGroup.TabIndex = 11;
@@ -431,7 +437,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxEmbelishChance)).EndInit();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.uxLootAmount)).EndInit();
             this.uxSpawningGroup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -466,7 +472,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uxOpenFile;
         private System.Windows.Forms.ToolTip uxToolTip;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown uxLootAmount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox uxSpawningGroup;
     }

@@ -30,7 +30,13 @@ namespace Loot_Spawner
         /// one must use the provided methods.
         /// </summary>
         public HashSet<Item> Inventory { get; private set; }
-        
+        /// <summary>
+        /// this variable is updated within a couple methods and
+        /// tells you if there are any items with a quantity greater
+        /// than zero
+        /// </summary>
+        public bool ContainsActiveItems { get; private set; }
+
         /// <summary>
         /// don't use this constructor if you want to actually use
         /// this object
@@ -39,6 +45,8 @@ namespace Loot_Spawner
         {
             this.Name = "Not Initialized";
             this.Items = new List<Item>();
+            ContainsActiveItems = false;
+            Inventory = new HashSet<Item>();
         }//end no-arg constructor
 
         /// <summary>
@@ -50,7 +58,34 @@ namespace Loot_Spawner
         {
             this.Name = name;
             this.Items = new List<Item>();
+            ContainsActiveItems = false;
+            Inventory = new HashSet<Item>();
         }//end 1-arg constructor
+
+        /// <summary>
+        /// Returns a string representation of this object, and by
+        /// that I mean it returns the name.
+        /// </summary>
+        /// <returns>returns String of this object</returns>
+        public override string ToString()
+        {
+            return Name;
+        }//end ToString()
+
+        /// <summary>
+        /// Method to add an Item to this Category
+        /// </summary>
+        /// <param name="name">name of the item</param>
+        /// <param name="cost">base cost of the item</param>
+        /// <param name="weight">weight of the item in pounds</param>
+        /// <param name="quantSpec">Quantity Specification of this
+        /// item. Leave as empty string if none</param>
+        /// <param name="description">description of the item</param>
+        public void AddItem(string name, int cost, double weight, 
+            string quantSpec, string description)
+        {
+            Items.Add(new Item(name, description, cost, weight, quantSpec));
+        }//end AddItem(name, cost, weight, description)
 
         /// <summary>
         /// This method randomly selects an Item from the Items
@@ -65,6 +100,8 @@ namespace Loot_Spawner
             int index = r.Next(0, Items.Count);
             Item selected = Items[index];
             selected.AddQuantity(1);
+            Inventory.Add(selected);
+            ContainsActiveItems = true;
             return selected;
         }//end SelectItem()
 
@@ -77,6 +114,7 @@ namespace Loot_Spawner
         {
             item.Quantity = 0;
             Inventory.Remove(item);
+            if(Inventory.Count == 0) ContainsActiveItems = false;
         }//end RemoveFromInventory(item)
 
         /// <summary>
@@ -90,6 +128,7 @@ namespace Loot_Spawner
                 item.Quantity = 0;
             }//end looping to reset each quantity
             Inventory.Clear();
+            ContainsActiveItems = false;
         }//end ClearInventory()
     }//end class
 }//end namespace
