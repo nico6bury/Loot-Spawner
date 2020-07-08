@@ -174,6 +174,52 @@ namespace Loot_Spawner
         }//end ToString()
 
         /// <summary>
+        /// A way to build all the information about this object
+        /// into a single string. Nifty!
+        /// </summary>
+        /// <returns>Returns string with information on
+        /// everything this object stores</returns>
+        public string BuildInfoStr()
+        {
+            StringBuilder info = new StringBuilder();
+            info.Append(Name);
+
+            if(Quantity < 2)
+            {
+                info.Append(BaseCost);
+                info.Append("->");
+                info.Append(Cost + " ");
+                info.Append(Weight + WeightType + "\n\t");
+            }//end if we have a single item
+            else
+            {
+                info.Append("x" + Quantity + " ");
+                info.Append(BaseCost + "/");
+                info.Append(BaseCost * Quantity);
+                info.Append("->");
+                info.Append(Cost + "/");
+                info.Append(Cost * Quantity);
+                info.Append(" ");
+                info.Append(Weight + WeightType + "\n\t");
+            }//end else we have several items
+
+            //now for the description
+            for (int i = 0; i < Description.Length; i++)
+            {
+                info.Append(Description[i]);
+
+                //TODO: Make it so that this if statement 
+                //doesn't separate words, somehow...
+                if (i != 0 && i % 75 == 0)
+                {
+                    info.Append("\n\t");
+                }//end if we've reaches the next 20th line
+            }//end looping over each character in Description
+            info.Append("\n");
+            return info.ToString();
+        }//end BuildInfoStr()
+
+        /// <summary>
         /// simply adds amount to quantity, taking QuantSpec into
         /// account. If you add amount more than 1 with a valid
         /// QuantSpec, then the method will loop to add evaluated

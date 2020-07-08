@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -238,6 +239,7 @@ namespace Loot_Spawner
 
         /// <summary>
         /// Click event for uxClearLoot
+        /// It clears the loot from uxResultsList and also from the Categories
         /// </summary>
         public void ClearLoot(object sender, EventArgs e)
         {
@@ -250,6 +252,7 @@ namespace Loot_Spawner
 
         /// <summary>
         /// Click event for uxShowTotal
+        /// It shows some of the total stats for everything in uxResultsList
         /// </summary>
         public void ShowStats(object sender, EventArgs e)
         {
@@ -262,27 +265,16 @@ namespace Loot_Spawner
             }//end looping to add resultList into items
 
             //now to tally up everything
-            int TotalCost = 0;
-            List<string> weightTypes = new List<string>();
-            List<double> weights = new List<double>();
-            for(int i = 0; i < items.Count; i++)
-            {
-                //add the current cost to the total tally
-                TotalCost += items[i].Cost;
-                if (!weightTypes.Contains(items[i].WeightType))
-                {
-                    weightTypes.Add(items[i].WeightType);
-                    weights.Add(items[i].Weight);
-                }//end if this is a new type of weight measurement
-                else
-                {
-                    weights[weightTypes.IndexOf(items[i].WeightType)] += items[i].Weight;
-                }//end else we should add this to the weights list
-            }//end looping to count all the things
+            List<string> weightTypes;
+            List<double> weights;
+            int[] results = GetBigStats(items, out weightTypes, out weights);
+            int TotalCost = results[0];
+            int TotalQuantity = results[1];
 
             //now to build the message
             StringBuilder message = new StringBuilder();
-            message.Append("Here are your totals:\nTotal Value: $" + 
+            message.Append("Here are your totals:\nTotal Quantity: "
+                + TotalQuantity + "\nTotal Value: $" + 
                 TotalCost + "\nTotal \"Weight\": ");
             for(int i = 0; i < weights.Count; i++)
             {
@@ -293,12 +285,107 @@ namespace Loot_Spawner
         }//end ShowStats()
 
         /// <summary>
+        /// A useful helper method to collect all the total stats
+        /// about a group of items
+        /// </summary>
+        /// <param name="items">The list of items to search through</param>
+        /// <param name="WeightTypes">will be list of weight types</param>
+        /// <param name="Weights">will be list of weights, parallel to 
+        /// WeightTypes</param>
+        /// <returns>returns total cost as an integer</returns>
+        private int[] GetBigStats(List<Item> items, 
+            out List<string> WeightTypes, out List<double> Weights)
+        {
+            //index 0 is total cost
+            //index 1 is total quantity
+            int[] ArrayResults = new int[2];
+            ArrayResults[0] = 0;
+            ArrayResults[1] = 0;
+            WeightTypes = new List<string>();
+            Weights = new List<double>();
+            for (int i = 0; i < items.Count; i++)
+            {
+                //add the current cost to the total tally
+                ArrayResults[0] += items[i].Cost;
+                ArrayResults[1] += items[i].Quantity;
+                if (!WeightTypes.Contains(items[i].WeightType))
+                {
+                    WeightTypes.Add(items[i].WeightType);
+                    Weights.Add(items[i].Weight);
+                }//end if this is a new type of weight measurement
+                else
+                {
+                    Weights[WeightTypes.IndexOf(items[i].WeightType)] += items[i].Weight;
+                }//end else we should add this to the weights list
+            }//end looping to count all the things
+            return ArrayResults;
+        }//end GetBigStats(items, WeightTypes, Weights)
+
+        /// <summary>
         /// Click event for uxOutputToText
+        /// Allows the user to output all this information to text
         /// </summary>
         public void OutputText(object sender, EventArgs e)
         {
-            MessageBox.Show("Feature not yet added");
+            //TODO: Write code to open a file and put stuff there
+            using (uxSaveTxtDialog)
+            {
+                if (uxSaveTxtDialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllText(uxSaveTxtDialog.FileName, BuildTextOutput());
+                }//end if we got an OK for the result
+            }//end use of uxSaveTxtDialog
+            
+            //TODO: Write method to build a list of lines to write in the file
+
         }//end OutputText()
+
+        /// <summary>
+        /// Actually builds all of the text to put in a file.
+        /// Is a helper method for OutputText().
+        /// Potentially outputs the following:
+        /// Total Stats of all items,
+        /// Total Weights for all of each item,
+        /// Total Costs for all of each item,
+        /// Item name, quantity, individual weight, base cost, cost,
+        /// description of each item
+        /// </summary>
+        /// <returns>returns a string with all the information in it</returns>
+        public string BuildTextOutput()
+        {
+            //first we create the StringBuilder to hold everything
+            StringBuilder AllText = new StringBuilder();
+            //now to tally up the totals
+            List<Item> items = new List<Item>();
+            for (int i = 0; i < uxResultsList.Items.Count; i++)
+            {
+                Item cur = uxResultsList.Items[i] as Item;
+                if (cur != null) items.Add(cur);
+            }//end looping to add resultList into items
+            List<string> weightTypes;
+            List<double> weights;
+            int[] results = GetBigStats(items, out weightTypes, out weights);
+            int TotalCost = results[0];
+            int TotalQuantity = results[1];
+
+            //now to build the message with totals
+            AllText.Append("Here are your totals:\nTotal Quantity: "
+                + TotalQuantity + "\nTotal Value: $" +
+                TotalCost + "\nTotal \"Weight\": ");
+            for (int i = 0; i < weights.Count; i++)
+            {
+                AllText.Append(weights[i] + weightTypes[i] + ", ");
+            }//end looping to add all the weights in
+            AllText.Length -= 2;
+            AllText.Append("\n");
+
+            //now we just need to add each Item to our thing
+            foreach(Item item in items){
+                AllText.Append(item.BuildInfoStr());
+            }//end looping to add 
+
+            return AllText.ToString();
+        }//end BuildTextOutput()
 
         /// <summary>
         /// A testing method which will create my sample categories
