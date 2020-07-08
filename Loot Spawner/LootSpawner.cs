@@ -389,6 +389,44 @@ namespace Loot_Spawner
         }//end BuildTextOutput()
 
         /// <summary>
+        /// Click event for uxOpenFile
+        /// Opens up a specified file and tries to read
+        /// it in as a category.
+        /// </summary>
+        public void ReadFile(object sender, EventArgs e)
+        {
+            using(OpenFileDialog OpenFile = new OpenFileDialog())
+            {
+                if(OpenFile.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using(StreamReader scribe = new
+                            StreamReader(OpenFile.FileName))
+                        {
+                            while (!scribe.EndOfStream)
+                            {
+                                //begin actualy file input
+                            }//end scribe not at end of stream
+                        }//end use of streamreader
+                    }//end trying to get input from file.
+                    catch
+                    {
+                        MessageBox.Show("Unfortuneately it seems that " +
+                            "your attempt to import a file has failed. This" +
+                            " could be due to something happening either " +
+                            "while the application opened the file or while " +
+                            "reading the file. Either way, the file couldn't " +
+                            "be read. You might try taking a closer look at the" +
+                            " readme if it exists, or just try double checking " +
+                            "that your file looks right.", "File Import Failed",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }//end catching user's file error
+                }//end if user pressed OK
+            }//end use of OpenFile
+        }//end ReadFile()
+
+        /// <summary>
         /// A testing method which will create my sample categories
         /// through hardcoded commands and make them show up in the
         /// GUI.
