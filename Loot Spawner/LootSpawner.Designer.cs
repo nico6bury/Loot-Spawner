@@ -76,6 +76,7 @@
             this.uxCategoryOptions.Margin = new System.Windows.Forms.Padding(2);
             this.uxCategoryOptions.Name = "uxCategoryOptions";
             this.uxCategoryOptions.Size = new System.Drawing.Size(286, 166);
+            this.uxCategoryOptions.Sorted = true;
             this.uxCategoryOptions.TabIndex = 0;
             // 
             // uxResultsList
@@ -87,6 +88,7 @@
             this.uxResultsList.Margin = new System.Windows.Forms.Padding(2);
             this.uxResultsList.Name = "uxResultsList";
             this.uxResultsList.Size = new System.Drawing.Size(348, 194);
+            this.uxResultsList.Sorted = true;
             this.uxResultsList.TabIndex = 1;
             // 
             // uxOutputGroup

@@ -67,6 +67,13 @@ namespace Loot_Spawner
         /// with no spaces. Otherwise leave it as an empty string.
         /// </summary>
         public string QuantSpec { get; set; }
+        /// <summary>
+        /// This number, which by default is one, multiplies the chance
+        /// for this item to be chosen by the number that it is. So if
+        /// this is 2, then this item is twice as likely to be chosen
+        /// </summary>
+        public int Probability { get; set; }
+
         //potential lists for storing additional data?
         //public List<Enchantment> Enchants { get; set; }
         //public Lists<Embellishment> Embellishments { get; set; }
@@ -82,6 +89,7 @@ namespace Loot_Spawner
             this.Cost = 0;
             this.Quantity = 0;
             this.QuantSpec = "";
+            this.Probability = 0;
         }//end no-arg constructor
 
         /// <summary>
@@ -102,6 +110,7 @@ namespace Loot_Spawner
             this.Weight = weight;
             this.Quantity = 0;
             this.QuantSpec = "";
+            this.Probability = 1;
         }//end 4-arg recommended constructor
 
         /// <summary>
@@ -124,6 +133,7 @@ namespace Loot_Spawner
             this.WeightType = weightType;
             this.Quantity = 0;
             this.QuantSpec = quantSpec;
+            this.Probability = 1;
         }//end 5-arg constructor for nondefault QuantSpec
 
         /// <summary>

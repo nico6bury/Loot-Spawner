@@ -88,6 +88,26 @@ namespace Loot_Spawner
         }//end AddItem(name, cost, weight, description)
 
         /// <summary>
+        /// Method to add an Item to this Category
+        /// </summary>
+        /// <param name="name">name of the item</param>
+        /// <param name="cost">base cost of the item</param>
+        /// <param name="weight">weight of the item in pounds</param>
+        /// <param name="quantSpec">Quantity Specification of this
+        /// item. Leave as empty string if none</param>
+        /// <param name="description">description of the item</param>
+        /// <param name="probability">chance for this item to be
+        /// selected will be multiplied by this</param>
+        public void AddItem(string name, int cost, double weight,
+            string weightType, string quantSpec, string description,
+            int probability)
+        {
+            Items.Add(new Item(name, description, cost, weight, 
+                weightType, quantSpec));
+            Items[Items.Count - 1].Probability = probability;
+        }//end AddItem(name, cost, weight, description)
+
+        /// <summary>
         /// Method allows you to adjust an item's quantity
         /// while also updating the Inventory HashSet
         /// </summary>
@@ -124,8 +144,17 @@ namespace Loot_Spawner
         public Item SelectItem()
         {
             Random r = new Random();
-            int index = r.Next(0, Items.Count);
-            Item selected = Items[index];
+            //build the list of items with probability in account
+            List<Item> ItemList = new List<Item>();
+            for(int i = 0; i < Items.Count; i++)
+            {
+                for(int j = 0; j < Items[i].Probability; j++)
+                {
+                    ItemList.Add(Items[i]);
+                }//end looping over Items[i] once for each probability
+            }//end looping over Items list
+            int index = r.Next(0, ItemList.Count);
+            Item selected = ItemList[index];
             selected.AddQuantity(1);
             Inventory.Add(selected);
             ContainsActiveItems = true;

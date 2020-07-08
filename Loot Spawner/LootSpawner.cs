@@ -20,7 +20,7 @@ using System.Windows.Forms;
 /// 
 /// Notes and TODOs:
 /// 1. make sure there can't be duplicate items in different categories
-/// 
+/// 2. make probability property of items also affect category choice
 /// </summary>
 namespace Loot_Spawner
 {
@@ -306,16 +306,17 @@ namespace Loot_Spawner
             for (int i = 0; i < items.Count; i++)
             {
                 //add the current cost to the total tally
-                ArrayResults[0] += items[i].Cost;
+                ArrayResults[0] += (items[i].Cost * items[i].Quantity);
                 ArrayResults[1] += items[i].Quantity;
                 if (!WeightTypes.Contains(items[i].WeightType))
                 {
                     WeightTypes.Add(items[i].WeightType);
-                    Weights.Add(items[i].Weight);
+                    Weights.Add(items[i].Weight * items[i].Quantity);
                 }//end if this is a new type of weight measurement
                 else
                 {
-                    Weights[WeightTypes.IndexOf(items[i].WeightType)] += items[i].Weight;
+                    Weights[WeightTypes.IndexOf(items[i].WeightType)] += 
+                        (items[i].Weight * items[i].Quantity);
                 }//end else we should add this to the weights list
             }//end looping to count all the things
             return ArrayResults;
@@ -480,7 +481,7 @@ namespace Loot_Spawner
                 Categories[0].AddItem("Tumeric",38, weight, wt, qs, descAdd0 + descAdd10);
                 Categories[0].AddItem("Zeodary",150, weight, wt, qs, descAdd0);
 
-            }//end spices
+            }//end spices p11
             if (true)
             {
                 Categories.Add(new Category("Other Materials"));
@@ -548,7 +549,75 @@ namespace Loot_Spawner
                 Categories[1].AddItem("Orpiment", 22, w, w3, qs, d12);
                 Categories[1].AddItem("Woad", 2, w, w3, qs, d13);
 
-            }//end other materials
+            }//end other materials p13
+            if (true)
+            {
+                Categories.Add(new Category("Cooking"));
+                Categories[2].AddItem("Basin",3,4,"lbs","","A wide," +
+                    " open bowl (two gallongs), appropriate for large" +
+                    " quantities of soup, washing up, or drainging the" +
+                    " blood of sacrificial victims. ",2);
+                Categories[2].AddItem("Bowl",1,.3,"lbs","","A small " +
+                    "ceramic bowl suitable for individual meals",2);
+                Categories[2].AddItem("Bucket",15,4,"lbs","","With " +
+                    "rope handle. Holds 1 gallon of liquid (1lb if " +
+                    "water). DR1, HP2. ",2);
+                Categories[2].AddItem("Cauldron",18,20,"lbs","","A " +
+                    "blackened iron cooking pot with a capacity of about" +
+                    " four gallons. ",2);
+                Categories[2].AddItem("Chopsticks",1,0,"lbs","1d/2","" +
+                    "A somewhat uncommon form of eating utensil. ",2);
+                Categories[2].AddItem("Cup",1,.15,"lbs","","Useful for" +
+                    " holding drinks or anything else small enough to" +
+                    " fit. ",2);
+                Categories[2].AddItem("Dinner Plate",2, 0.5,"lbs","1d+3"
+                    ,"A large plate suitable for eating off of. ",2);
+                Categories[2].AddItem("Drinking Set",7,3,"lbs", "","A" +
+                    " set of drinking paraphenalia for four, such as " +
+                    "snifters and a decanter for brandy or a strainer" +
+                    " and wide shallow cups for unfiltered wine. ",2);
+                Categories[2].AddItem("Fork, Cooking", 10,2,"lbs","",
+                    "A heavy fork, about a foot long, good for holding" +
+                    " roasts during carving, or piercing and lifting" +
+                    " large vegetables. If used as a weapon, does " +
+                    "thr-1 imp; use Knife skill at -2. ",2);
+                Categories[2].AddItem("Fork, Table",3,0.4,"lbs","1d+5"
+                    ,"If used as a weapon, does thr-3 imp; use Knife" +
+                    " skill at -2. ",2);
+                Categories[2].AddItem("Goblet",5,.5,"lbs","1d/2+2",
+                    "A large (at least one-pint capactity), footed" +
+                    " cup. ",2);
+                Categories[2].AddItem("Knife, Table",2,.4,"lbs","1d+5"
+                    ,"A dull knife, not sharp enough for cutting " +
+                    "damage or pointed enough for impaling",2);
+                Categories[2].AddItem("Ladle",9,2,"lbs","",
+                    "An ordinary kitchen ladle.",2);
+                Categories[2].AddItem("Mortar and Pestle",20,6,"lbs"
+                    ,"", "Stone, about a pint capacity. ", 2);
+                Categories[2].AddItem("Pitcher",2,3,"lbs",
+                    "", "Ceramic, half-gallon", 2);
+                Categories[2].AddItem("Place Setting",5,2,"lbs","1d"
+                    ,"A set of dishes and eating utensils. " +
+                    "Quanity indicates number of settings found. ",2);
+                Categories[2].AddItem("Platter",1,1,"lbs","1d/3",
+                    "An ordinary kitchen platter. ",2);
+                Categories[2].AddItem("Pot",30,2,"lbs","1d/3",
+                    "A lightweight cooking pot, holding about" +
+                    "two quarts. ",2);
+                Categories[2].AddItem("Skillet",50,8,"lbs","",
+                    "A 12-inch pan for cooking. ",2);
+                Categories[2].AddItem("Spit, Cooking",100,15,"lbs",""
+                    ,"A pointed metal bar large enough to cook a whole" +
+                    " goat or sheep. Does not include posts to set it" +
+                    " up on. ",2);
+                Categories[2].AddItem("Tea Set",6,4.5,"lbs","",
+                    "A pot for brewing and four small cups. ",2);
+                Categories[2].AddItem("Teapot, Iron",45,7,"lbs",""
+                    ,"An iron teapot, doesn't have to just contain" +
+                    " tea.",2);
+                Categories[2].AddItem("Wine Glass",10,.5,"lbs","1d/3+3",
+                    "A glass cup made for holding wine. ",2);
+            }//end if cooking p14
             uxCategoryOptions.DataSource = Categories;
             SelectAllCats(null, null);
         }//end CreateCats()
