@@ -253,7 +253,43 @@ namespace Loot_Spawner
         /// </summary>
         public void ShowStats(object sender, EventArgs e)
         {
-            MessageBox.Show("Feature not yet added");
+            //basically we just need to tally up the stats shown in uxResultList
+            List<Item> items = new List<Item>();
+            for(int i = 0; i < uxResultsList.Items.Count; i++)
+            {
+                Item cur = uxResultsList.Items[i] as Item;
+                if (cur != null) items.Add(cur);
+            }//end looping to add resultList into items
+
+            //now to tally up everything
+            int TotalCost = 0;
+            List<string> weightTypes = new List<string>();
+            List<double> weights = new List<double>();
+            for(int i = 0; i < items.Count; i++)
+            {
+                //add the current cost to the total tally
+                TotalCost += items[i].Cost;
+                if (!weightTypes.Contains(items[i].WeightType))
+                {
+                    weightTypes.Add(items[i].WeightType);
+                    weights.Add(items[i].Weight);
+                }//end if this is a new type of weight measurement
+                else
+                {
+                    weights[weightTypes.IndexOf(items[i].WeightType)] += items[i].Weight;
+                }//end else we should add this to the weights list
+            }//end looping to count all the things
+
+            //now to build the message
+            StringBuilder message = new StringBuilder();
+            message.Append("Here are your totals:\nTotal Value: $" + 
+                TotalCost + "\nTotal \"Weight\": ");
+            for(int i = 0; i < weights.Count; i++)
+            {
+                message.Append(weights[i] + weightTypes[i] + ", ");
+            }//end looping to add all the weights in
+            message.Length -= 2;
+            MessageBox.Show(message.ToString(), "Total Statistics", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }//end ShowStats()
 
         /// <summary>
