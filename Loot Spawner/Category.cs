@@ -153,7 +153,7 @@ namespace Loot_Spawner
                     ItemList.Add(Items[i]);
                 }//end looping over Items[i] once for each probability
             }//end looping over Items list
-            int index = r.Next(0, ItemList.Count);
+            int index = r.Next(0, ItemList.Count-1);
             Item selected = ItemList[index];
             selected.AddQuantity(1);
             Inventory.Add(selected);

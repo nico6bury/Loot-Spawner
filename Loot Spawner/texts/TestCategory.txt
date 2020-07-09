@@ -1,0 +1,2 @@
+S-n"Banner"-c"5"-w"0.5"-t"lbs"-d"A flag large enough to cover a person or table. "-p"2"
+S-n"Brazier"-c"65"-w"3"-t"lbs"-d"An open metal dish on a pedestal or short legs, for heating or cooking. "-p"2"

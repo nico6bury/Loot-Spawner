@@ -404,14 +404,127 @@ namespace Loot_Spawner
                         using(StreamReader scribe = new
                             StreamReader(OpenFile.FileName))
                         {
+                            //building an appropriate name for the category
+                            string[] fileparts = OpenFile.FileName.Split(new char[] { '\\' });
+                            StringBuilder nameBuilder = new StringBuilder();
+                            nameBuilder.Append(fileparts[fileparts.Length - 1]);
+                            nameBuilder.Length -= 4;
+
+                            Category newCat = new Category(nameBuilder.ToString());
                             while (!scribe.EndOfStream)
                             {
                                 //begin actualy file input
-                            }//end scribe not at end of stream
+                                string line = scribe.ReadLine();
+                                string[] components = line.Split(new char[] { '-' }, 
+                                    StringSplitOptions.RemoveEmptyEntries);
+                                if (components[0].ToLower().Equals("s"))
+                                {
+                                    string name = "John Doe";
+                                    int cost = -1;
+                                    double weight = -1;
+                                    string weightType = "Arbitrary Units";
+                                    string description = "Object defies description";
+                                    string quantSpec = "";
+                                    int probability = 1;
+                                    for (int i = 1; i < components.Length; i++)
+                                    {
+                                        //build some tools for the if statement to make use of
+                                        string comp = components[i];
+                                        StringBuilder lineBuilder = new StringBuilder();
+                                        for (int j = 2; j < (comp.Length - 1); j++)
+                                        {
+                                            lineBuilder.Append(comp[j]);
+                                        }//end looping over some letters
+
+                                        if (comp.ToLower()[0].Equals('n'))
+                                        {
+                                            name = lineBuilder.ToString();
+                                        }//end if (n)ame prefix detected
+                                        else if (comp.ToLower()[0].Equals('c'))
+                                        {
+                                            try
+                                            {
+                                                cost = Convert.ToInt32(lineBuilder.ToString());
+                                            }//end trying to convert something
+                                            catch
+                                            {
+                                                MessageBox.Show("Something happened while trying " +
+                                                    "to convert your cost into an integer.\n" +
+                                                    "Cost will be set to 0.", "Conversion Error",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }//end catching conversion errors
+                                        }//end else if (c)ost prefix detected
+                                        else if (comp.ToLower()[0].Equals('w'))
+                                        {
+                                            try
+                                            {
+                                                weight = Convert.ToDouble(lineBuilder.ToString());
+                                            }//end trying to convert something
+                                            catch
+                                            {
+                                                MessageBox.Show("Something happened while trying " +
+                                                    "to convert your weight into a double.\n" +
+                                                    "Weight will be set to 0.", "Conversion Error",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }//end catching conversion errors
+                                        }//end else if (w)eight prefix detected
+                                        else if (comp.ToLower()[0].Equals('t'))
+                                        {
+                                            weightType = lineBuilder.ToString();
+                                        }//end else if weight (t)ype prefix detected
+                                        else if (comp.ToLower()[0].Equals('d'))
+                                        {
+                                            description = lineBuilder.ToString();
+                                        }//end else if (d)escription prefix detected
+                                        else if (comp.ToLower()[0].Equals('p'))
+                                        {
+                                            try
+                                            {
+                                                probability = Convert.ToInt32(lineBuilder.ToString());
+                                            }//end trying to convert something
+                                            catch
+                                            {
+                                                MessageBox.Show("Something happened while trying " +
+                                                    "to convert your probability into an integer.\n" +
+                                                    "Probability will be set to 1.","Conversion Error",
+                                                    MessageBoxButtons.OK,MessageBoxIcon.Error);
+                                                probability = 1;
+                                            }//end catching conversion errors
+                                        }//end else if (p)robability prefix detected
+                                        else if (comp.ToLower()[0].Equals('q'))
+                                        {
+                                            quantSpec = lineBuilder.ToString();
+                                        }//end else if (q)uantity specification prefix detected
+                                        else
+                                        {
+                                            probability = 0;
+                                        }//end else the prefix is unrecognized
+                                    }//end looping over each component simple case
+                                    newCat.AddItem(name, cost, weight, weightType, 
+                                        quantSpec, description, probability);
+                                    
+                                }//end if the item is simple
+                                else
+                                {
+                                    //errorbox
+                                    MessageBox.Show("Based on your line input, it appears" +
+                                        " that you have an item which isn't simple. I haven't" +
+                                        " even built the classes or anything for more complicated" +
+                                        " items yet, so I can't really do this line. Remember that" +
+                                        " to distinguish that an item is simple, put an \"S\" followed" +
+                                        " immediately by a dash. If you don't do that, the program" +
+                                        " can't tell what you're trying to do.","Unsupported Item Type",
+                                        MessageBoxButtons.OK,MessageBoxIcon.Error);
+                                }//end else the item is more complicated
+                            }//end while scribe not at end of stream
+                            Categories.Add(newCat);
                         }//end use of streamreader
+                        uxCategoryOptions.DataSource = null;
+                        uxCategoryOptions.DataSource = Categories;
                     }//end trying to get input from file.
                     catch
                     {
+                        //errorbox
                         MessageBox.Show("Unfortuneately it seems that " +
                             "your attempt to import a file has failed. This" +
                             " could be due to something happening either " +
@@ -656,6 +769,7 @@ namespace Loot_Spawner
                 Categories[2].AddItem("Wine Glass",10,.5,"lbs","1d/3+3",
                     "A glass cup made for holding wine. ",2);
             }//end if cooking p14
+
             uxCategoryOptions.DataSource = Categories;
             SelectAllCats(null, null);
         }//end CreateCats()

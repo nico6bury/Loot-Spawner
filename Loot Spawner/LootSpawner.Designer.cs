@@ -70,24 +70,24 @@
             // 
             // uxCategoryOptions
             // 
-            this.uxCategoryOptions.Font = new System.Drawing.Font("Liberation Serif", 10F);
+            this.uxCategoryOptions.Font = new System.Drawing.Font("Liberation Serif", 13F);
             this.uxCategoryOptions.FormattingEnabled = true;
             this.uxCategoryOptions.Location = new System.Drawing.Point(11, 26);
             this.uxCategoryOptions.Margin = new System.Windows.Forms.Padding(2);
             this.uxCategoryOptions.Name = "uxCategoryOptions";
-            this.uxCategoryOptions.Size = new System.Drawing.Size(286, 166);
+            this.uxCategoryOptions.Size = new System.Drawing.Size(286, 158);
             this.uxCategoryOptions.Sorted = true;
             this.uxCategoryOptions.TabIndex = 0;
             // 
             // uxResultsList
             // 
-            this.uxResultsList.Font = new System.Drawing.Font("Times New Roman", 13F);
+            this.uxResultsList.Font = new System.Drawing.Font("Times New Roman", 14F);
             this.uxResultsList.FormattingEnabled = true;
-            this.uxResultsList.ItemHeight = 19;
+            this.uxResultsList.ItemHeight = 21;
             this.uxResultsList.Location = new System.Drawing.Point(4, 23);
             this.uxResultsList.Margin = new System.Windows.Forms.Padding(2);
             this.uxResultsList.Name = "uxResultsList";
-            this.uxResultsList.Size = new System.Drawing.Size(348, 194);
+            this.uxResultsList.Size = new System.Drawing.Size(348, 193);
             this.uxResultsList.Sorted = true;
             this.uxResultsList.TabIndex = 1;
             // 
@@ -358,6 +358,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.uxOpenFile});
+            this.fileToolStripMenuItem.Font = new System.Drawing.Font("Liberation Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -365,8 +366,9 @@
             // uxOpenFile
             // 
             this.uxOpenFile.Name = "uxOpenFile";
-            this.uxOpenFile.Size = new System.Drawing.Size(103, 22);
+            this.uxOpenFile.Size = new System.Drawing.Size(180, 22);
             this.uxOpenFile.Text = "Open";
+            this.uxOpenFile.Click += new System.EventHandler(this.ReadFile);
             // 
             // uxToolTip
             // 
