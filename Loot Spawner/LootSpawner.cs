@@ -521,6 +521,7 @@ namespace Loot_Spawner
                         }//end use of streamreader
                         uxCategoryOptions.DataSource = null;
                         uxCategoryOptions.DataSource = Categories;
+                        SelectAllCats(null, null);
                     }//end trying to get input from file.
                     catch
                     {
