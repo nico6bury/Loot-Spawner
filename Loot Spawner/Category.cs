@@ -96,8 +96,8 @@ namespace Loot_Spawner
         /// <param name="quantSpec">Quantity Specification of this
         /// item. Leave as empty string if none</param>
         /// <param name="description">description of the item</param>
-        /// <param name="probability">chance for this item to be
-        /// selected will be multiplied by this</param>
+        /// <param name="probability">relative chance for this item 
+        /// to be selected, with 100 being default 100%</param>
         public void AddItem(string name, int cost, double weight,
             string weightType, string quantSpec, string description,
             int probability)
@@ -132,9 +132,11 @@ namespace Loot_Spawner
                 if (Items[i].Quantity > 0) newInventory.Add(Items[i]);
             }//end looping over each item
             Inventory = newInventory;
+            if (Inventory.Count > 0) ContainsActiveItems = true;
         }//end UpdateInventory
 
         /// <summary>
+        /// [OUTDATED METHOD, DOESN'T WORK FOR NON-INT PROBABILITY]
         /// This method randomly selects an Item from the Items
         /// list, increases its quantity based on QuantSpec.
         /// From there, it adds any item it increases the quantity
@@ -146,14 +148,14 @@ namespace Loot_Spawner
             Random r = new Random();
             //build the list of items with probability in account
             List<Item> ItemList = new List<Item>();
-            for(int i = 0; i < Items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
-                for(int j = 0; j < Items[i].Probability; j++)
+                for (int j = 0; j < Items[i].Probability; j++)
                 {
                     ItemList.Add(Items[i]);
                 }//end looping over Items[i] once for each probability
             }//end looping over Items list
-            int index = r.Next(0, ItemList.Count-1);
+            int index = r.Next(0, ItemList.Count - 1);
             Item selected = ItemList[index];
             selected.AddQuantity(1);
             Inventory.Add(selected);

@@ -71,6 +71,9 @@ namespace Loot_Spawner
         /// This number, which by default is one, multiplies the chance
         /// for this item to be chosen by the number that it is. So if
         /// this is 2, then this item is twice as likely to be chosen
+        /// Changed after a time to allow decimals, but only to a certain
+        /// degree of precision. Basically 100 is 100% of the time, and 
+        /// you get decimals that way. Nifty, right?
         /// </summary>
         public int Probability { get; set; }
 
@@ -110,7 +113,7 @@ namespace Loot_Spawner
             this.Weight = weight;
             this.Quantity = 0;
             this.QuantSpec = "";
-            this.Probability = 1;
+            this.Probability = 100;
         }//end 4-arg recommended constructor
 
         /// <summary>
@@ -133,7 +136,7 @@ namespace Loot_Spawner
             this.WeightType = weightType;
             this.Quantity = 0;
             this.QuantSpec = quantSpec;
-            this.Probability = 1;
+            this.Probability = 100;
         }//end 5-arg constructor for nondefault QuantSpec
 
         /// <summary>

@@ -21,6 +21,7 @@ using System.Windows.Forms;
 /// Notes and TODOs:
 /// 1. make sure there can't be duplicate items in different categories
 /// 2. make probability property of items also affect category choice
+/// 3. make probability a double instead of an integer and change item choice to remain compatible with this.
 /// </summary>
 namespace Loot_Spawner
 {
@@ -61,15 +62,22 @@ namespace Loot_Spawner
         {
             //grab the number of times we need to generate loot
             int lootAmount = Convert.ToInt32(uxLootAmount.Value);
+            SelectItem(lootAmount);
+            DisplayActive();
+
+
+            /* OBSOLETE method of choosing items
             //choose one of the categories to use
-            Random r = new Random();
+            //Random r = new Random();
             for (int i = 0; i < lootAmount; i++)
             {
+                
+                OBSOLETE method of generating items
                 int index = r.Next(0, Categories.Count);
                 Categories[index].SelectItem();
+                
             }//end looping to select item for each lootAmount
-
-            DisplayActive();
+            */
         }//end CreateLoot()
 
         /// <summary>
@@ -425,7 +433,7 @@ namespace Loot_Spawner
                                     string weightType = "Arbitrary Units";
                                     string description = "Object defies description";
                                     string quantSpec = "";
-                                    int probability = 1;
+                                    int probability = 100;
                                     for (int i = 1; i < components.Length; i++)
                                     {
                                         //build some tools for the if statement to make use of
@@ -486,9 +494,9 @@ namespace Loot_Spawner
                                             {
                                                 MessageBox.Show("Something happened while trying " +
                                                     "to convert your probability into an integer.\n" +
-                                                    "Probability will be set to 1.","Conversion Error",
+                                                    "Probability will be set to 100.","Conversion Error",
                                                     MessageBoxButtons.OK,MessageBoxIcon.Error);
-                                                probability = 1;
+                                                probability = 100;
                                             }//end catching conversion errors
                                         }//end else if (p)robability prefix detected
                                         else if (comp.ToLower()[0].Equals('q'))
@@ -539,6 +547,115 @@ namespace Loot_Spawner
                 }//end if user pressed OK
             }//end use of OpenFile
         }//end ReadFile()
+
+        /// <summary>
+        /// This is a helper method that selects an item based on 
+        /// probabiltiy from all categories
+        /// <param name="time">the number of times to get an item</param>
+        /// </summary>
+        private void SelectItem(int times)
+        {
+            //I'll need a way to randomly select weighted items
+            //Below is the algorith I chose to use
+            /* 1. Create an array of pairs of actual items and weight
+             * of each item
+             * 2. When you add an item, the weight of the item needs
+             * to be its own weight plus the sum of the weights of all
+             * items already in the array. (Sum should be tracked 
+             * separately)
+             * 3. To retrieve an object, generate a random number 
+             * between 0 and the sum of the weights of all items.
+             * 4. Iterate the array from start to finish until you 
+             * found an entry with a weight larger or equal then the
+             * random number.
+             */
+
+            //find the total number of items
+            int itemNum = 0;
+            for(int i = 0; i < Categories.Count; i++)
+            {
+                //add this catgegory's inventory count
+                itemNum += Categories[i].Items.Count;
+            }//end looping over each Category's Inventory's Count
+
+            //now that we know the size, we can intialize our array
+            ItemPair[] ItemPairs = new ItemPair[itemNum];
+            int wtSum = 0;//sum of all weights
+            for(int i = 0; i < Categories.Count; i++)
+            {
+                int j = 0;
+                foreach(Item item in Categories[i].Items)
+                {
+                    ItemPairs[i + j].item = item;
+                    ItemPairs[i + j].wt = item.Probability + wtSum;
+                    wtSum += item.Probability;
+                    j++;
+                }//end looping over each item in inventory
+            }//end looping for each category
+
+            //now to generate all the random indexes
+            /* change wtSel array to be a BinaryTree so that 
+             * it's automatically sorted, and then we'll want
+             * to maybe tranfer that to a queue or stack to use
+             * during the next step.
+             * Note: just sort list instead of using BinaryTree
+             */
+            List<int> wtSel = new List<int>();
+            Random r = new Random();
+            for (int i = 0; i < times; i++)
+            {
+                wtSel.Add(r.Next(0, wtSum));
+            }//end adding times number of random numbers
+            //transfer wtSel to queue
+            wtSel.Sort();
+            int cur = 0;//current index of wtSel that we're at
+
+            //now to pick out all the randomly gotten items
+            for(int i = 0; i < ItemPairs.Length && cur < wtSel.Count; i++)
+            {
+                if(ItemPairs[i].wt > wtSel[cur])
+                {
+                    //add item to list somehow
+                    ItemPairs[i].item.AddQuantity(1);
+                    //perform counter maintenance
+                    cur++;
+                    i--;
+                }//end if we found an item
+            }//end looping over each item
+
+            //in order to make sure we've kept track of the items
+            //that are now active, we need to update inventories
+            foreach(Category cat in Categories)
+            {
+                cat.UpdateInventory();
+            }//end updating inventory for each category in categories
+        }//end SelectItem()
+
+        /// <summary>
+        /// This struct holds an Item and a probabilitistical
+        /// weight. The weight represents the relative chance
+        /// for the Item to be chosen. Also, this is the first
+        /// time I've ever used a struct before. Woo.
+        /// </summary>
+        struct ItemPair
+        {
+            /// <summary>
+            /// This is the item part of this item pair. So,
+            /// in other words, if this ItemPair is selected, 
+            /// then it means that this Item object has been 
+            /// chosen.
+            /// </summary>
+            public Item item;
+
+            /// <summary>
+            /// this is the weight of the item pair in terms 
+            /// of probabilistic chances of this item being 
+            /// selected. It's named wt instead of weight in
+            /// order to avoid getting it confused with the 
+            /// weight property of the Item class.
+            /// </summary>
+            public int wt;
+        }//end struct ItemPair
 
         /// <summary>
         /// A testing method which will create my sample categories
@@ -708,67 +825,67 @@ namespace Loot_Spawner
                 Categories[2].AddItem("Basin",3,4,"lbs","","A wide," +
                     " open bowl (two gallongs), appropriate for large" +
                     " quantities of soup, washing up, or drainging the" +
-                    " blood of sacrificial victims. ",2);
+                    " blood of sacrificial victims. ",200);
                 Categories[2].AddItem("Bowl",1,.3,"lbs","","A small " +
-                    "ceramic bowl suitable for individual meals",2);
+                    "ceramic bowl suitable for individual meals",200);
                 Categories[2].AddItem("Bucket",15,4,"lbs","","With " +
                     "rope handle. Holds 1 gallon of liquid (1lb if " +
-                    "water). DR1, HP2. ",2);
+                    "water). DR1, HP2. ",200);
                 Categories[2].AddItem("Cauldron",18,20,"lbs","","A " +
                     "blackened iron cooking pot with a capacity of about" +
-                    " four gallons. ",2);
+                    " four gallons. ",200);
                 Categories[2].AddItem("Chopsticks",1,0,"lbs","1d/2","" +
-                    "A somewhat uncommon form of eating utensil. ",2);
+                    "A somewhat uncommon form of eating utensil. ",200);
                 Categories[2].AddItem("Cup",1,.15,"lbs","","Useful for" +
                     " holding drinks or anything else small enough to" +
-                    " fit. ",2);
+                    " fit. ",200);
                 Categories[2].AddItem("Dinner Plate",2, 0.5,"lbs","1d+3"
-                    ,"A large plate suitable for eating off of. ",2);
+                    ,"A large plate suitable for eating off of. ",200);
                 Categories[2].AddItem("Drinking Set",7,3,"lbs", "","A" +
                     " set of drinking paraphenalia for four, such as " +
                     "snifters and a decanter for brandy or a strainer" +
-                    " and wide shallow cups for unfiltered wine. ",2);
+                    " and wide shallow cups for unfiltered wine. ",200);
                 Categories[2].AddItem("Fork, Cooking", 10,2,"lbs","",
                     "A heavy fork, about a foot long, good for holding" +
                     " roasts during carving, or piercing and lifting" +
                     " large vegetables. If used as a weapon, does " +
-                    "thr-1 imp; use Knife skill at -2. ",2);
+                    "thr-1 imp; use Knife skill at -2. ",200);
                 Categories[2].AddItem("Fork, Table",3,0.4,"lbs","1d+5"
                     ,"If used as a weapon, does thr-3 imp; use Knife" +
-                    " skill at -2. ",2);
+                    " skill at -2. ",200);
                 Categories[2].AddItem("Goblet",5,.5,"lbs","1d/2+2",
                     "A large (at least one-pint capactity), footed" +
-                    " cup. ",2);
+                    " cup. ",200);
                 Categories[2].AddItem("Knife, Table",2,.4,"lbs","1d+5"
                     ,"A dull knife, not sharp enough for cutting " +
-                    "damage or pointed enough for impaling",2);
+                    "damage or pointed enough for impaling",200);
                 Categories[2].AddItem("Ladle",9,2,"lbs","",
-                    "An ordinary kitchen ladle.",2);
+                    "An ordinary kitchen ladle.",200);
                 Categories[2].AddItem("Mortar and Pestle",20,6,"lbs"
-                    ,"", "Stone, about a pint capacity. ", 2);
+                    ,"", "Stone, about a pint capacity. ", 200);
                 Categories[2].AddItem("Pitcher",2,3,"lbs",
-                    "", "Ceramic, half-gallon", 2);
+                    "", "Ceramic, half-gallon", 200);
                 Categories[2].AddItem("Place Setting",5,2,"lbs","1d"
                     ,"A set of dishes and eating utensils. " +
-                    "Quanity indicates number of settings found. ",2);
+                    "Quanity indicates number of settings found. ",200);
                 Categories[2].AddItem("Platter",1,1,"lbs","1d/3",
-                    "An ordinary kitchen platter. ",2);
+                    "An ordinary kitchen platter. ",200);
                 Categories[2].AddItem("Pot",30,2,"lbs","1d/3",
                     "A lightweight cooking pot, holding about" +
-                    "two quarts. ",2);
+                    "two quarts. ",200);
                 Categories[2].AddItem("Skillet",50,8,"lbs","",
-                    "A 12-inch pan for cooking. ",2);
+                    "A 12-inch pan for cooking. ",200);
                 Categories[2].AddItem("Spit, Cooking",100,15,"lbs",""
                     ,"A pointed metal bar large enough to cook a whole" +
                     " goat or sheep. Does not include posts to set it" +
-                    " up on. ",2);
+                    " up on. ",200);
                 Categories[2].AddItem("Tea Set",6,4.5,"lbs","",
-                    "A pot for brewing and four small cups. ",2);
+                    "A pot for brewing and four small cups. ",200);
                 Categories[2].AddItem("Teapot, Iron",45,7,"lbs",""
                     ,"An iron teapot, doesn't have to just contain" +
-                    " tea.",2);
+                    " tea.",200);
                 Categories[2].AddItem("Wine Glass",10,.5,"lbs","1d/3+3",
-                    "A glass cup made for holding wine. ",2);
+                    "A glass cup made for holding wine. ",200);
             }//end if cooking p14
 
             uxCategoryOptions.DataSource = Categories;
