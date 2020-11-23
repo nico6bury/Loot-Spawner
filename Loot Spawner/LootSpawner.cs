@@ -397,6 +397,98 @@ namespace Loot_Spawner
         }//end BuildTextOutput()
 
         /// <summary>
+        /// This enum is used in the ReadFile method as an essential
+        /// part of a state machine within a for loop which parses each line.
+        /// </summary>
+        enum FileState
+        {
+            /// <summary>
+            /// idek anymore tbh
+            /// </summary>
+            Idle,
+            /// <summary>
+            /// currently finished with the current thing
+            /// </summary>
+            Finished,
+            /// <summary>
+            /// currently parsing the name
+            /// </summary>
+            GettingName,
+            /// <summary>
+            /// currently parsing the cost
+            /// </summary>
+            GettingCost,
+            /// <summary>
+            /// currently parsing the weight
+            /// </summary>
+            GettingWeight,
+            /// <summary>
+            /// currently parsing the description
+            /// </summary>
+            GettingDesc,
+            /// <summary>
+            /// currently parsing the quantity specification
+            /// </summary>
+            GettingQuantSpec,
+            /// <summary>
+            /// currently parsing the probability
+            /// </summary>
+            GettingProbab
+        }//end enum FileState
+
+        /// <summary>
+        /// This method looks around a string in order to find the locations of new
+        /// properties
+        /// </summary>
+        /// <param name="s">the string to search in</param>
+        /// <param name="propertyShorthands">char array of all the letters that start
+        /// a new property</param>
+        /// <returns>list of index locations where a property starts</returns>
+        private List<int> FindPropertyStarts(string s, char[] propertyShorthands)
+        {
+            List<int> selectedLocations = new List<int>();
+
+            for(int i = 0; i < s.Length; i++)
+            {
+                if(s[i] == '-' && propertyShorthands.Contains(s[i+1]) && s[i+2] == '\"' && s[i-1] != '\\')
+                {
+                    selectedLocations.Add(i);
+                }//end if we found a new property
+            }//end looping for each character in s
+
+            return selectedLocations;
+        }//end FindPropertyStarts(s, propertyShorthands)
+
+        /// <summary>
+        /// Splits a string into several strings by splicing it up at
+        /// the specified locations
+        /// </summary>
+        /// <param name="s">the string you want to split</param>
+        /// <param name="locations">the locations where you're going
+        /// to split the string</param>
+        /// <returns></returns>
+        private List<string> SplitBasedOnIndex(string s, List<int> locations)
+        {
+            List<string> splits = new List<string>();
+            StringBuilder sb = new StringBuilder();
+
+            for(int i = 0; i < s.Length; i++)
+            {
+                if (locations.Contains(i))
+                {
+                    splits.Add(sb.ToString());
+                    sb.Clear();
+                }//end if we need to split here
+                else
+                {
+                    sb.Append(s[i]);
+                }//end else we need to just add the char to the SB
+            }//end looping for each character in s
+
+            return splits;
+        }//end SplitBasedOnIndex(s, locations)
+
+        /// <summary>
         /// Click event for uxOpenFile
         /// Opens up a specified file and tries to read
         /// it in as a category.
@@ -416,6 +508,7 @@ namespace Loot_Spawner
                             string[] fileparts = OpenFile.FileName.Split(new char[] { '\\' });
                             StringBuilder nameBuilder = new StringBuilder();
                             nameBuilder.Append(fileparts[fileparts.Length - 1]);
+                            //this gets rid of the .txt part of the name
                             nameBuilder.Length -= 4;
 
                             Category newCat = new Category(nameBuilder.ToString());
@@ -423,18 +516,26 @@ namespace Loot_Spawner
                             {
                                 //begin actualy file input
                                 string line = scribe.ReadLine();
-                                string[] components = line.Split(new char[] { '-' }, 
-                                    StringSplitOptions.RemoveEmptyEntries);
+
+                                // begin start of new input method
+                                // get all those string pieces set up
+                                char[] acceptedTypeShorthands = { 'n', 'c', 'w', 't', 'd', 'p', 'q' };
+                                List<int> locations = FindPropertyStarts(line, acceptedTypeShorthands);
+                                List<string> components = SplitBasedOnIndex(line, locations);
+
+                                //set some default values
+                                string name = "Object not named";
+                                int cost = -1;
+                                double weight = -1;
+                                string weightType = "Arbitrary Units";
+                                string description = "Object defies description";
+                                string quantSpec = "";
+                                int probability = 100;
+                                StringBuilder sb = new StringBuilder();
+
                                 if (components[0].ToLower().Equals("s"))
                                 {
-                                    string name = "John Doe";
-                                    int cost = -1;
-                                    double weight = -1;
-                                    string weightType = "Arbitrary Units";
-                                    string description = "Object defies description";
-                                    string quantSpec = "";
-                                    int probability = 100;
-                                    for (int i = 1; i < components.Length; i++)
+                                    for (int i = 1; i < components.Count; i++)
                                     {
                                         //build some tools for the if statement to make use of
                                         string comp = components[i];
@@ -457,8 +558,11 @@ namespace Loot_Spawner
                                             catch
                                             {
                                                 MessageBox.Show("Something happened while trying " +
-                                                    "to convert your cost into an integer.\n" +
-                                                    "Cost will be set to 0.", "Conversion Error",
+                                                    "to convert your cost into an integer.\"" +
+                                                    lineBuilder.ToString() + "\" was read as the cost," +
+                                                    " but this can't be converted. " +
+                                                    "\". Cost for \"" + name + "\" will be set to 0."
+                                                    , "Conversion Error",
                                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             }//end catching conversion errors
                                         }//end else if (c)ost prefix detected
@@ -470,9 +574,10 @@ namespace Loot_Spawner
                                             }//end trying to convert something
                                             catch
                                             {
-                                                MessageBox.Show("Something happened while trying " +
-                                                    "to convert your weight into a double.\n" +
-                                                    "Weight will be set to 0.", "Conversion Error",
+                                                MessageBox.Show("Something happened while trying to convert " +
+                                                    "the weight of \"" + name + "\" to a decimal. \"" +
+                                                    lineBuilder.ToString() + "\" was read for the weight of this" +
+                                                    " object, but this can't be converted.", "Conversion Error",
                                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             }//end catching conversion errors
                                         }//end else if (w)eight prefix detected
@@ -493,9 +598,11 @@ namespace Loot_Spawner
                                             catch
                                             {
                                                 MessageBox.Show("Something happened while trying " +
-                                                    "to convert your probability into an integer.\n" +
-                                                    "Probability will be set to 100.","Conversion Error",
-                                                    MessageBoxButtons.OK,MessageBoxIcon.Error);
+                                                    "to convert the probability of \"" + name +
+                                                    "\" into an integer." + "As \"" + lineBuilder.ToString() +
+                                                    "\" couldn't be converted, probability for this object will" +
+                                                    " be set to 100.", "Conversion Error",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                 probability = 100;
                                             }//end catching conversion errors
                                         }//end else if (p)robability prefix detected
@@ -508,9 +615,9 @@ namespace Loot_Spawner
                                             probability = 0;
                                         }//end else the prefix is unrecognized
                                     }//end looping over each component simple case
-                                    newCat.AddItem(name, cost, weight, weightType, 
+                                    newCat.AddItem(name, cost, weight, weightType,
                                         quantSpec, description, probability);
-                                    
+
                                 }//end if the item is simple
                                 else
                                 {
@@ -545,8 +652,9 @@ namespace Loot_Spawner
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }//end catching user's file error
                 }//end if user pressed OK
+                
             }//end use of OpenFile
-        }//end ReadFile()
+        }//end ReadFile()        
 
         /// <summary>
         /// This is a helper method that selects an item based on 
@@ -667,7 +775,7 @@ namespace Loot_Spawner
             Categories = new List<Category>();
 
             //add spices
-            if (true)
+            if (false)
             {
                 Categories.Add(new Category("Spices"));
                 double weight = 1;
@@ -675,7 +783,10 @@ namespace Loot_Spawner
                 string qs = "1d/2";
                 string descAdd0 = "As a spice, this item's quantity refers" +
                     " to how many ounces there are. An ounce is one sixteenth" +
-                    " of a pound. ";
+                    " of a pound. Spice is a lightweight trading good with relatively" +
+                    " high value. Alchemists who are short on cash but have spices can" +
+                    " use their value to offset half the cost of raw materials when making" +
+                    " their own potions.";
                 string descAdd1 = "An ounce of this, ground to a powder" +
                     " and scattered in the user’s path, will make anyone" +
                     " tracking him by scent have a fit of sneezing(see " +
@@ -751,7 +862,7 @@ namespace Loot_Spawner
                 Categories[0].AddItem("Zeodary",150, weight, wt, qs, descAdd0);
 
             }//end spices p11
-            if (true)
+            if (false)
             {
                 Categories.Add(new Category("Other Materials"));
                 //weight
@@ -819,7 +930,7 @@ namespace Loot_Spawner
                 Categories[1].AddItem("Woad", 2, w, w3, qs, d13);
 
             }//end other materials p13
-            if (true)
+            if (false)
             {
                 Categories.Add(new Category("Cooking"));
                 Categories[2].AddItem("Basin",3,4,"lbs","","A wide," +
