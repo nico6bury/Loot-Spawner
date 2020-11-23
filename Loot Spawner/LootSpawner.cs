@@ -274,10 +274,10 @@ namespace Loot_Spawner
 
             //now to tally up everything
             List<string> weightTypes;
-            List<double> weights;
-            int[] results = GetBigStats(items, out weightTypes, out weights);
-            int TotalCost = results[0];
-            int TotalQuantity = results[1];
+            List<decimal> weights;
+            decimal[] results = GetBigStats(items, out weightTypes, out weights);
+            decimal TotalCost = results[0];
+            decimal TotalQuantity = results[1];
 
             //now to build the message
             StringBuilder message = new StringBuilder();
@@ -301,30 +301,30 @@ namespace Loot_Spawner
         /// <param name="Weights">will be list of weights, parallel to 
         /// WeightTypes</param>
         /// <returns>returns total cost as an integer</returns>
-        private int[] GetBigStats(List<Item> items, 
-            out List<string> WeightTypes, out List<double> Weights)
+        private decimal[] GetBigStats(List<Item> items, 
+            out List<string> WeightTypes, out List<decimal> Weights)
         {
             //index 0 is total cost
             //index 1 is total quantity
-            int[] ArrayResults = new int[2];
+            decimal[] ArrayResults = new decimal[2];
             ArrayResults[0] = 0;
             ArrayResults[1] = 0;
             WeightTypes = new List<string>();
-            Weights = new List<double>();
+            Weights = new List<decimal>();
             for (int i = 0; i < items.Count; i++)
             {
                 //add the current cost to the total tally
-                ArrayResults[0] += (items[i].Cost * items[i].Quantity);
+                ArrayResults[0] += ((decimal)items[i].Cost * items[i].Quantity);
                 ArrayResults[1] += items[i].Quantity;
                 if (!WeightTypes.Contains(items[i].WeightType))
                 {
                     WeightTypes.Add(items[i].WeightType);
-                    Weights.Add(items[i].Weight * items[i].Quantity);
+                    Weights.Add((decimal)items[i].Weight * items[i].Quantity);
                 }//end if this is a new type of weight measurement
                 else
                 {
                     Weights[WeightTypes.IndexOf(items[i].WeightType)] += 
-                        (items[i].Weight * items[i].Quantity);
+                        ((decimal)items[i].Weight * items[i].Quantity);
                 }//end else we should add this to the weights list
             }//end looping to count all the things
             return ArrayResults;
@@ -372,10 +372,10 @@ namespace Loot_Spawner
                 if (cur != null) items.Add(cur);
             }//end looping to add resultList into items
             List<string> weightTypes;
-            List<double> weights;
-            int[] results = GetBigStats(items, out weightTypes, out weights);
-            int TotalCost = results[0];
-            int TotalQuantity = results[1];
+            List<decimal> weights;
+            decimal[] results = GetBigStats(items, out weightTypes, out weights);
+            decimal TotalCost = results[0];
+            decimal TotalQuantity = results[1];
 
             //now to build the message with totals
             AllText.Append("Here are your totals:\nTotal Quantity: "
@@ -774,10 +774,13 @@ namespace Loot_Spawner
         {
             Categories = new List<Category>();
 
+            bool hardCodedCatsEnabled = true;
+
             //add spices
-            if (false)
+            if (hardCodedCatsEnabled)
             {
                 Categories.Add(new Category("Spices"));
+                int i = Categories.Count - 1;
                 double weight = 1;
                 string wt = "oz";
                 string qs = "1d/2";
@@ -824,47 +827,48 @@ namespace Loot_Spawner
                     " Using an ounce of it while dressing wounds gives +1" +
                     " to First Aid. ";
 
-                Categories[0].AddItem("Allspice",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Anise",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Annatto",113, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Asafetida",75, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Cardamom",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Cassia",75, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Chiles",38, weight, wt, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Cinnamon",150, weight, wt, qs, descAdd0 + descAdd2);
-                Categories[0].AddItem("Clove",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Coriander",150, weight, wt, qs, descAdd0 + descAdd3);
-                Categories[0].AddItem("Cumin",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Dwarven Savory Fungus",75, weight, wt, qs, descAdd0 + descAdd4);
-                Categories[0].AddItem("Elven Pepperbark",38, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Faerie Glimmerseed",270, weight, wt, qs, descAdd0 + descAdd5);
-                Categories[0].AddItem("Fennel",75, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Fenugreek",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Ginger",38, weight, wt, qs, descAdd0 + descAdd6);
-                Categories[0].AddItem("Halfling Savory",150, weight, wt, qs, descAdd0 + descAdd4);
-                Categories[0].AddItem("Huajiao (Szechuan Pepper)",150, weight, wt, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Mace",225, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Mustard",38, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Nigella",75, weight, wt, qs, descAdd0 + descAdd7);
-                Categories[0].AddItem("Nutmeg",150, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Onion Seed",38, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Orcish Firegrain",150, weight, wt, qs, descAdd0 + descAdd8);
-                Categories[0].AddItem("Pepper, Black",150, weight, wt, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Pepper, White",188, weight, wt, qs, descAdd0 + descAdd1);
-                Categories[0].AddItem("Poppy Seed",38, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Saffron",300, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Salt",15, weight, wt, qs, descAdd0 + descAdd9);
-                Categories[0].AddItem("Salt, Black",38, weight, wt, qs, descAdd0 + descAdd9);
-                Categories[0].AddItem("Salt, Red",38, weight, wt, qs, descAdd0 + descAdd9);
-                Categories[0].AddItem("Sumac",38, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Tamarind",15, weight, wt, qs, descAdd0);
-                Categories[0].AddItem("Tumeric",38, weight, wt, qs, descAdd0 + descAdd10);
-                Categories[0].AddItem("Zeodary",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Allspice",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Anise",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Annatto",113, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Asafetida",75, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Cardamom",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Cassia",75, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Chiles",38, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[i].AddItem("Cinnamon",150, weight, wt, qs, descAdd0 + descAdd2);
+                Categories[i].AddItem("Clove",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Coriander",150, weight, wt, qs, descAdd0 + descAdd3);
+                Categories[i].AddItem("Cumin",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Dwarven Savory Fungus",75, weight, wt, qs, descAdd0 + descAdd4);
+                Categories[i].AddItem("Elven Pepperbark",38, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Faerie Glimmerseed",270, weight, wt, qs, descAdd0 + descAdd5);
+                Categories[i].AddItem("Fennel",75, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Fenugreek",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Ginger",38, weight, wt, qs, descAdd0 + descAdd6);
+                Categories[i].AddItem("Halfling Savory",150, weight, wt, qs, descAdd0 + descAdd4);
+                Categories[i].AddItem("Huajiao (Szechuan Pepper)",150, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[i].AddItem("Mace",225, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Mustard",38, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Nigella",75, weight, wt, qs, descAdd0 + descAdd7);
+                Categories[i].AddItem("Nutmeg",150, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Onion Seed",38, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Orcish Firegrain",150, weight, wt, qs, descAdd0 + descAdd8);
+                Categories[i].AddItem("Pepper, Black",150, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[i].AddItem("Pepper, White",188, weight, wt, qs, descAdd0 + descAdd1);
+                Categories[i].AddItem("Poppy Seed",38, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Saffron",300, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Salt",15, weight, wt, qs, descAdd0 + descAdd9);
+                Categories[i].AddItem("Salt, Black",38, weight, wt, qs, descAdd0 + descAdd9);
+                Categories[i].AddItem("Salt, Red",38, weight, wt, qs, descAdd0 + descAdd9);
+                Categories[i].AddItem("Sumac",38, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Tamarind",15, weight, wt, qs, descAdd0);
+                Categories[i].AddItem("Tumeric",38, weight, wt, qs, descAdd0 + descAdd10);
+                Categories[i].AddItem("Zeodary",150, weight, wt, qs, descAdd0);
 
             }//end spices p11
-            if (false)
+            if (hardCodedCatsEnabled)
             {
                 Categories.Add(new Category("Other Materials"));
+                int i = Categories.Count - 1;
                 //weight
                 double w = 1;
                 string w1 = "gallon(s)";
@@ -892,113 +896,284 @@ namespace Loot_Spawner
                 string d11 = "A rare purple-red derived from mollusks. ";
                 string d12 = "A yellow mineral pigment. ";
                 string d13 = "A pale-blue vegetable dye related to indigo. ";
-                Categories[1].AddItem("Ale", 5, w, w1, qs, d0);
-                Categories[1].AddItem("Distilled Liquor", 16, w, w2, qs, d0);
-                Categories[1].AddItem("Flavored Ale", 7, w, w1, qs, d0);
-                Categories[1].AddItem("Flavored Brandy", 20, w, w2, qs, d0);
-                Categories[1].AddItem("Kumiz", 15, w, w1, qs, d1);
-                Categories[1].AddItem("Mead", 11, w, w1, qs, d0);
-                Categories[1].AddItem("Opium", 20, w, w3, qs, d0);
-                Categories[1].AddItem("Tea, Black", 2, w, w3, qs, d0);
-                Categories[1].AddItem("Tea, Green", 2, w, w3, qs, d0);
-                Categories[1].AddItem("Wine, Date", 9, w, w1, qs, d0);
-                Categories[1].AddItem("Wine, Grape", 9, w, w1, qs, d0);
-                Categories[1].AddItem("Wine, Rice", 8, w, w1, qs, d0);
-                Categories[1].AddItem("Wine, Otherworldly", 20, w, w1, qs, d2);
-                Categories[1].AddItem("Sealing Wax", 1, w, w3, qs, d0);
-                Categories[1].AddItem("Ambergris", 35, w, w3, qs, d0);
-                Categories[1].AddItem("Cedar Resin", 10, w, w3, qs, d0);
-                Categories[1].AddItem("Copal", 11, w, w3, qs, d0);
-                Categories[1].AddItem("Frankincense", 16, w, w3, qs, d0);
-                Categories[1].AddItem("Musk", 28, w, w3, qs, d0);
-                Categories[1].AddItem("Myrrh", 15, w, w3, qs, d0);
-                Categories[1].AddItem("Onycha", 20, w, w3, qs, d0);
-                Categories[1].AddItem("Patchouli", 9, w, w3, qs, d0);
-                Categories[1].AddItem("Sandalwood Gum", 8, w, w3, qs, d0);
-                Categories[1].AddItem("Flower Water", 5, w, w3, qs, d3);
-                Categories[1].AddItem("Perfumed Essence", 12, w, w3, qs, d4);
-                Categories[1].AddItem("Perfumed Oil", 8, w, w3, qs, d5);
-                Categories[1].AddItem("Pomander", 9, w, w3, qs, d6);
-                Categories[1].AddItem("Carmine", 40, w, w3, qs, d7);
-                Categories[1].AddItem("Cinnabar", 18, w, w3, qs, d8);
-                Categories[1].AddItem("Ochre", 1, w, w3, qs, d0);
-                Categories[1].AddItem("Henna", 1, w, w3, qs, d0);
-                Categories[1].AddItem("Indigo", 32, w, w3, qs, d9);
-                Categories[1].AddItem("Madder", 2, w, w3, qs, d10);
-                Categories[1].AddItem("Murex", 29, w, w3, qs, d11);
-                Categories[1].AddItem("Orpiment", 22, w, w3, qs, d12);
-                Categories[1].AddItem("Woad", 2, w, w3, qs, d13);
+                Categories[i].AddItem("Ale", 5, w, w1, qs, d0);
+                Categories[i].AddItem("Distilled Liquor", 16, w, w2, qs, d0);
+                Categories[i].AddItem("Flavored Ale", 7, w, w1, qs, d0);
+                Categories[i].AddItem("Flavored Brandy", 20, w, w2, qs, d0);
+                Categories[i].AddItem("Kumiz", 15, w, w1, qs, d1);
+                Categories[i].AddItem("Mead", 11, w, w1, qs, d0);
+                Categories[i].AddItem("Opium", 20, w, w3, qs, d0);
+                Categories[i].AddItem("Tea, Black", 2, w, w3, qs, d0);
+                Categories[i].AddItem("Tea, Green", 2, w, w3, qs, d0);
+                Categories[i].AddItem("Wine, Date", 9, w, w1, qs, d0);
+                Categories[i].AddItem("Wine, Grape", 9, w, w1, qs, d0);
+                Categories[i].AddItem("Wine, Rice", 8, w, w1, qs, d0);
+                Categories[i].AddItem("Wine, Otherworldly", 20, w, w1, qs, d2);
+                Categories[i].AddItem("Sealing Wax", 1, w, w3, qs, d0);
+                Categories[i].AddItem("Ambergris", 35, w, w3, qs, d0);
+                Categories[i].AddItem("Cedar Resin", 10, w, w3, qs, d0);
+                Categories[i].AddItem("Copal", 11, w, w3, qs, d0);
+                Categories[i].AddItem("Frankincense", 16, w, w3, qs, d0);
+                Categories[i].AddItem("Musk", 28, w, w3, qs, d0);
+                Categories[i].AddItem("Myrrh", 15, w, w3, qs, d0);
+                Categories[i].AddItem("Onycha", 20, w, w3, qs, d0);
+                Categories[i].AddItem("Patchouli", 9, w, w3, qs, d0);
+                Categories[i].AddItem("Sandalwood Gum", 8, w, w3, qs, d0);
+                Categories[i].AddItem("Flower Water", 5, w, w3, qs, d3);
+                Categories[i].AddItem("Perfumed Essence", 12, w, w3, qs, d4);
+                Categories[i].AddItem("Perfumed Oil", 8, w, w3, qs, d5);
+                Categories[i].AddItem("Pomander", 9, w, w3, qs, d6);
+                Categories[i].AddItem("Carmine", 40, w, w3, qs, d7);
+                Categories[i].AddItem("Cinnabar", 18, w, w3, qs, d8);
+                Categories[i].AddItem("Ochre", 1, w, w3, qs, d0);
+                Categories[i].AddItem("Henna", 1, w, w3, qs, d0);
+                Categories[i].AddItem("Indigo", 32, w, w3, qs, d9);
+                Categories[i].AddItem("Madder", 2, w, w3, qs, d10);
+                Categories[i].AddItem("Murex", 29, w, w3, qs, d11);
+                Categories[i].AddItem("Orpiment", 22, w, w3, qs, d12);
+                Categories[i].AddItem("Woad", 2, w, w3, qs, d13);
 
             }//end other materials p13
-            if (false)
+            if (hardCodedCatsEnabled)
             {
                 Categories.Add(new Category("Cooking"));
-                Categories[2].AddItem("Basin",3,4,"lbs","","A wide," +
+                int i = Categories.Count - 1;
+                Categories[i].AddItem("Basin",3,4,"lbs","","A wide," +
                     " open bowl (two gallongs), appropriate for large" +
                     " quantities of soup, washing up, or drainging the" +
                     " blood of sacrificial victims. ",200);
-                Categories[2].AddItem("Bowl",1,.3,"lbs","","A small " +
+                Categories[i].AddItem("Bowl",1,.3,"lbs","","A small " +
                     "ceramic bowl suitable for individual meals",200);
-                Categories[2].AddItem("Bucket",15,4,"lbs","","With " +
+                Categories[i].AddItem("Bucket",15,4,"lbs","","With " +
                     "rope handle. Holds 1 gallon of liquid (1lb if " +
                     "water). DR1, HP2. ",200);
-                Categories[2].AddItem("Cauldron",18,20,"lbs","","A " +
+                Categories[i].AddItem("Cauldron",18,20,"lbs","","A " +
                     "blackened iron cooking pot with a capacity of about" +
                     " four gallons. ",200);
-                Categories[2].AddItem("Chopsticks",1,0,"lbs","1d/2","" +
+                Categories[i].AddItem("Chopsticks",1,0,"lbs","1d/2","" +
                     "A somewhat uncommon form of eating utensil. ",200);
-                Categories[2].AddItem("Cup",1,.15,"lbs","","Useful for" +
+                Categories[i].AddItem("Cup",1,.15,"lbs","","Useful for" +
                     " holding drinks or anything else small enough to" +
                     " fit. ",200);
-                Categories[2].AddItem("Dinner Plate",2, 0.5,"lbs","1d+3"
+                Categories[i].AddItem("Dinner Plate",2, 0.5,"lbs","1d+3"
                     ,"A large plate suitable for eating off of. ",200);
-                Categories[2].AddItem("Drinking Set",7,3,"lbs", "","A" +
+                Categories[i].AddItem("Drinking Set",7,3,"lbs", "","A" +
                     " set of drinking paraphenalia for four, such as " +
                     "snifters and a decanter for brandy or a strainer" +
                     " and wide shallow cups for unfiltered wine. ",200);
-                Categories[2].AddItem("Fork, Cooking", 10,2,"lbs","",
+                Categories[i].AddItem("Fork, Cooking", 10,2,"lbs","",
                     "A heavy fork, about a foot long, good for holding" +
                     " roasts during carving, or piercing and lifting" +
                     " large vegetables. If used as a weapon, does " +
                     "thr-1 imp; use Knife skill at -2. ",200);
-                Categories[2].AddItem("Fork, Table",3,0.4,"lbs","1d+5"
+                Categories[i].AddItem("Fork, Table",3,0.4,"lbs","1d+5"
                     ,"If used as a weapon, does thr-3 imp; use Knife" +
                     " skill at -2. ",200);
-                Categories[2].AddItem("Goblet",5,.5,"lbs","1d/2+2",
+                Categories[i].AddItem("Goblet",5,.5,"lbs","1d/2+2",
                     "A large (at least one-pint capactity), footed" +
                     " cup. ",200);
-                Categories[2].AddItem("Knife, Table",2,.4,"lbs","1d+5"
+                Categories[i].AddItem("Knife, Table",2,.4,"lbs","1d+5"
                     ,"A dull knife, not sharp enough for cutting " +
                     "damage or pointed enough for impaling",200);
-                Categories[2].AddItem("Ladle",9,2,"lbs","",
+                Categories[i].AddItem("Ladle",9,2,"lbs","",
                     "An ordinary kitchen ladle.",200);
-                Categories[2].AddItem("Mortar and Pestle",20,6,"lbs"
+                Categories[i].AddItem("Mortar and Pestle",20,6,"lbs"
                     ,"", "Stone, about a pint capacity. ", 200);
-                Categories[2].AddItem("Pitcher",2,3,"lbs",
+                Categories[i].AddItem("Pitcher",2,3,"lbs",
                     "", "Ceramic, half-gallon", 200);
-                Categories[2].AddItem("Place Setting",5,2,"lbs","1d"
+                Categories[i].AddItem("Place Setting",5,2,"lbs","1d"
                     ,"A set of dishes and eating utensils. " +
                     "Quanity indicates number of settings found. ",200);
-                Categories[2].AddItem("Platter",1,1,"lbs","1d/3",
+                Categories[i].AddItem("Platter",1,1,"lbs","1d/3",
                     "An ordinary kitchen platter. ",200);
-                Categories[2].AddItem("Pot",30,2,"lbs","1d/3",
+                Categories[i].AddItem("Pot",30,2,"lbs","1d/3",
                     "A lightweight cooking pot, holding about" +
                     "two quarts. ",200);
-                Categories[2].AddItem("Skillet",50,8,"lbs","",
+                Categories[i].AddItem("Skillet",50,8,"lbs","",
                     "A 12-inch pan for cooking. ",200);
-                Categories[2].AddItem("Spit, Cooking",100,15,"lbs",""
+                Categories[i].AddItem("Spit, Cooking",100,15,"lbs",""
                     ,"A pointed metal bar large enough to cook a whole" +
                     " goat or sheep. Does not include posts to set it" +
                     " up on. ",200);
-                Categories[2].AddItem("Tea Set",6,4.5,"lbs","",
+                Categories[i].AddItem("Tea Set",6,4.5,"lbs","",
                     "A pot for brewing and four small cups. ",200);
-                Categories[2].AddItem("Teapot, Iron",45,7,"lbs",""
+                Categories[i].AddItem("Teapot, Iron",45,7,"lbs",""
                     ,"An iron teapot, doesn't have to just contain" +
                     " tea.",200);
-                Categories[2].AddItem("Wine Glass",10,.5,"lbs","1d/3+3",
+                Categories[i].AddItem("Wine Glass",10,.5,"lbs","1d/3+3",
                     "A glass cup made for holding wine. ",200);
             }//end if cooking p14
+            if (hardCodedCatsEnabled)
+            {
+                Categories.Add(new Category("Fibers and Fabrics"));
+                int i = Categories.Count - 1;
+                //weight type
+                string wt = "lbs";
+                Categories[i].AddItem("Cloth, Otherworldly", 200, 7.5, wt, "",
+                    "Per 100-square-foot bolt. Made from unusual materials that " +
+                    "are either inherently magical or turned into fabric through" +
+                    " a magical process: spun moonbeams, stabilized seafoam, " +
+                    "felted tears, etc.The material has no immediate effect, " +
+                    "but it can be very valuable in complex magical work; it " +
+                    "gives + 2 to Merchant skill if sold or traded to an enchanter" +
+                    " or other dealer in magical items.");
+                Categories[i].AddItem("Cloth, Giant-Spider Silk", 565, 1, wt, "",
+                    "Per 100-square-foot bolt. A very durable fabric, suitable " +
+                    "for armor use.");
+                Categories[i].AddItem("Cloth, Gauze", 5, 1.5, wt, "",
+                    "Per 100-square-foot bolt. This is extremely delicate cloth," +
+                    " much beloved of pixies (+1 to Merchant skill if selling" +
+                    " them gauze) but generally suitable only for decorative use.");
+                Categories[i].AddItem("Cloth, Linen", 14, 2.5, wt, "",
+                    "Per 100-square-foot bolt. A pure, fine, white cloth, often " +
+                    "used in priestly garments.");
+                Categories[i].AddItem("Cloth, Pashmina Wool", 45, 4, wt, "",
+                    "Per 100-square-foot bolt. This kind of wool is rather " +
+                    "expensive but makes particularly pleasant, warm garments " +
+                    "with a light weight.");
+                Categories[i].AddItem("Cloth, Plain Silk", 17, 2, wt, "", 
+                    "Per 100-square-foot bolt. Has a fairly coarse weave, but" +
+                    " using a fine fiber.");
+                Categories[i].AddItem("Cloth, Samite", 42, 3, wt, "", 
+                    "Per 100-square-foot bolt. A finer, slightly shiny cloth " +
+                    "made from silk fibers.");
+                Categories[i].AddItem("Cloth, Satin", 75, 2, wt, "", 
+                    "Per 100-square-foot bolt. An extremely fine, smooth silk fabric");
+                Categories[i].AddItem("Cloth, Velvet", 18, 5, wt, "", 
+                    "Per 100-square-foot bolt.");
+                Categories[i].AddItem("Cloth, Wool", 15, 6, wt, "", 
+                    "Per 100-square-foot bolt. Utility grade woolen fabric, warm " +
+                    "and study but heavy.");
+                Categories[i].AddItem("Fur, Common", 200, 75, wt, "", 
+                    "Per 100-square-foot bolt. Pelts of common animals, such as seals" +
+                    ", monkeys, rabbits, foxes, goats, horses, oxen, deer, elk," +
+                    "reindeer, antelope, or ibex.");
+                Categories[i].AddItem("Fur, Exotic", 500, 75, wt, "", 
+                    "Per 100-square-foot bundle. Finer and usually small pelts " +
+                    "from animals such as sable, ermine, jaguars, lions, tigers, " +
+                    "wolves, bears, wyverns, dire wolves, cave bears, giant apes," +
+                    " or frost snakes.");
+                Categories[i].AddItem("Leather, Common", 150, 50, wt, "",
+                    "Per 100-square-foot bolt. Leather from common animals, such as seals" +
+                    ", monkeys, rabbits, foxes, goats, horses, oxen, deer, elk," +
+                    "reindeer, antelope, or ibex.");
+                Categories[i].AddItem("Leather, Exotic", 250, 50, wt, "", 
+                    "Per 100-square-foot bolt. Finer or more durable leather " +
+                    "from animals such as sable, ermine, jaguars, lions, tigers, " +
+                    "wolves, bears, wyverns, dire wolves, cave bears, giant apes," +
+                    " or frost snakes.");
+                Categories[i].AddItem("Scale-Hide", 275, 50, wt, "", 
+                    "Per 100-square-foot bundle. Leather made from fish or reptiles.");
+                Categories[i].AddItem("Leather, Contraband", 500, 25, wt, "", 
+                    "Per 100-square-foot bundle. The leather is made from a hide " +
+                    "likely to offend some intelligent creature. This is often the" +
+                    "skin of a sapient being (human, elf, etc.). Necromancers aside," +
+                    "any memeber of the offended race reacts to the owener at -4.");
+                Categories[i].AddItem("Leather, Otherworldly", 1000, 50, wt, "", 
+                    "Per 100-square-foot bundle. Pelts from supernatural entities: " +
+                    "angelic horses, astral tigers, demon skin, etc. Like otherworldly " +
+                    "fabric, it has no immediate effect but is extremely valuable to" +
+                    " the right people and gives +2 to Merchant skill if sold or traded" +
+                    " to an enchanter or other dealer in magical items.");
+                Categories[i].AddItem("Fiber, Linen", 0.25, 1, wt, "2dx3",
+                    "Per pound.");
+                Categories[i].AddItem("Fiber, Silk", 0.75, 1, wt, "2dx3", "Per pound");
+                Categories[i].AddItem("Fiber, Wild Silk", 0.65, 1, wt, "2dx3", "Per pound");
+                Categories[i].AddItem("Fiber, Wool", 0.20, 1, wt, "2dx3", "Per pound");
+                Categories[i].AddItem("Fiber Pasima Wool", 0.60, 1, wt, "2dx3", "Per pound");
+                Categories[i].AddItem("Fiber, GIant-Spider Silk", 10, 1, wt, "2dx3", "Per pound");
+                Categories[i].AddItem("Fiber, Otherworldly", 7, 1, wt, "2dx3", "" +
+                    "Per pound Gives +2 to Merchant skill if solf or traded to an " +
+                    "enchanter or other dealer in magical items.");
+            }//end if fibers and fabrics pg12
+            if (hardCodedCatsEnabled)
+            {
+                Categories.Add(new Category("Decor"));
+                int i = Categories.Count - 1;
 
+                Categories[i].AddItem("Banner", 5, .5, "lbs", "", "A " +
+                    "flag large enough to cover a person or table.");
+                Categories[i].AddItem("Brazier", 65, 3, "lbs", "", "An open " +
+                    "metal dish on a pedestal or short legs, for heating or cooking");
+                Categories[i].AddItem("Candlesticks", 4, 1, "lbs", "", 
+                    "A decorative candleholder, candle not included.");
+                Categories[i].AddItem("Censer/Incense Burner", 60, 2, "lbs", "", 
+                    "A small, enclosed brazier used for incense, often on a chain " +
+                    "so that it can be hung or carried around.");
+                Categories[i].AddItem("Clock, Complex", 1000, 25, "lbs", "",
+                    "A remarkable timepiece driven by water or pendulum. Keeps " +
+                    "time for eight hours before it requires resetting the " +
+                    "pendulum or refilling the tank. This clock has an elaborate" +
+                    " display that may involve multiple hands, moving displays of" +
+                    " celestial bodies, ringing bells, etc. The clock becomes " +
+                    "very inaccurate quickly if moved while it is functioning.");
+                Categories[i].AddItem("Clock, Simple", 400, 15, "lbs", "",
+                    "An unremarkable timepiece driven by water or a pendulum. " +
+                    "Keeps time for eight hours before it requires resetting the " +
+                    "pendulum or refilling the tank. This clock doesn't keep time " +
+                    "well when it is moved.");
+                Categories[i].AddItem("Music Box", 120, 2, "lbs", "",
+                    "Plays a tune with small chimes when the crank is turned.");
+            }//end if Decor pg14
+            if (hardCodedCatsEnabled)
+            {
+                Categories.Add(new Category("Furniture"));
+                int i = Categories.Count - 1;
+
+                Categories[i].AddItem("Bench", 160, 25, "lbs", "",
+                    "Simple seating for two or three people, with no arms, " +
+                    "back, or padding.");
+                Categories[i].AddItem("Chair", 90, 12, "lbs", "",
+                    "A solid wooden chair with a back and possibly arms.");
+                Categories[i].AddItem("Chair, Folding", 75, 8, "lbs", "",
+                    "A chair that collapses for transport, much like a modern " +
+                    "director's chair.");
+                Categories[i].AddItem("Couch", 600, 140, "lbs", "",
+                    "Well-padded seating for two or three, with arms and a back.");
+                Categories[i].AddItem("Footstool", 30, 3, "lbs", "", 
+                    "Better versions are cushioned.");
+                Categories[i].AddItem("Headrest", 8, 3, "lbs", "",
+                    "Carved wooden headrest used by some societies instead of a pillow;");
+                Categories[i].AddItem("Mattress", 850, 30, "lbs", "",
+                    "A thick clock sack filled with feathers. Since it is closer to" +
+                    " a quilt than a modern rigid mattress, it can be rolled up for " +
+                    "transport. Cost and weight are for a single person bed.");
+                Categories[i].AddItem("Pillow", 70, 2, "lbs", "", "A normal pillow.");
+                Categories[i].AddItem("Rug/Carpet", 45, 1, "lbs", "2d+2",
+                    "Per single square foot area. A piece of fabric heavy enough " +
+                    "to stand up to foot traffic.");
+                Categories[i].AddItem("Sheets", 35, 2, "lbs", "", "A set of sheets.");
+                Categories[i].AddItem("Table", 120, 18, "lbs", "",
+                    "A small (two to three square feet) wooden table.");
+                Categories[i].AddItem("Table, Folding", 90, 15, "lbs", "",
+                    "Folds up like a director's chair for easy transport.");
+                Categories[i].AddItem("Tapestry", 40, .75, "lbs", "3d+10",
+                    "Per square feet in area. A decorative wall hanging.");
+                Categories[i].AddItem("Tub", 300, 100, "lbs", "",
+                    "A portable, thin-sided metal tub, large enough for one person.");
+            }//end if Furniture pg 15
+            if (hardCodedCatsEnabled)
+            {
+                Categories.Add(new Category("Grooming"));
+                int i = Categories.Count - 1;
+
+                Categories[i].AddItem("Brush", 6, 0.5, "lb", "",
+                    "An ordinary hair brush.");
+                Categories[i].AddItem("Comb", 3, 0.2, "lb", "",
+                    "A comb for grooming, not a decorative comb left in the hair.");
+                Categories[i].AddItem("Cosmetics", 40, 1, "oz", "1d/2",
+                    "Pigments, often in a fatty base.");
+                Categories[i].AddItem("Grooming Kit", 80, 3, "lbs", "",
+                    "Brush, comb, razor or small scissors, and a few small pots" +
+                    " of soaps, cosmetics, and/or perfumes.");
+                Categories[i].AddItem("Razor", 30, 0.1, "lb", "",
+                    "Can be used in close combat with Knife skill, but cannot " +
+                    "parry; does thr-2 cut.");
+                Categories[i].AddItem("Scissors", 35, 0.3, "lb", "",
+                    "Small (2-3\" blades) scissors for grooming or light cloth work.");
+                Categories[i].AddItem("Strigil", 6, 0.5, "lb", "",
+                    "A dull, hooked blade for scraping dirt and oil off the skin.");
+            }//end if Grooming pg 15
             uxCategoryOptions.DataSource = Categories;
             SelectAllCats(null, null);
         }//end CreateCats()

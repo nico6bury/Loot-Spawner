@@ -81,7 +81,7 @@ namespace Loot_Spawner
         /// <param name="quantSpec">Quantity Specification of this
         /// item. Leave as empty string if none</param>
         /// <param name="description">description of the item</param>
-        public void AddItem(string name, int cost, double weight, 
+        public void AddItem(string name, double cost, double weight, 
             string weightType, string quantSpec, string description)
         {
             Items.Add(new Item(name, description, cost, weight, weightType, quantSpec));

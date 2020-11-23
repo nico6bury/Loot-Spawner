@@ -33,13 +33,13 @@ namespace Loot_Spawner
         /// this is the net cost of the item while taking into
         /// consideration all the modifiers that the item has
         /// </summary>
-        public int Cost { get; set; }
+        public double Cost { get; set; }
         /// <summary>
         /// this is the original base cost of the item without
         /// taking into account any of the modifiers. Useful for
         /// calculating multiple cost factors
         /// </summary>
-        public int BaseCost { get; set; }
+        public double BaseCost { get; set; }
         /// <summary>
         /// this is the weight of the item. This takes into account
         /// all modifiers. There is no base weight, so be careful
@@ -104,7 +104,7 @@ namespace Loot_Spawner
         /// <param name="description">the description of ths item</param>
         /// <param name="baseCost">the base cost of this item</param>
         /// <param name="weight">the weight of this item in pounds</param>
-        public Item(string name, string description, int baseCost, double weight)
+        public Item(string name, string description, double baseCost, double weight)
         {
             this.Name = name;
             this.Description = description;
@@ -125,7 +125,7 @@ namespace Loot_Spawner
         /// <param name="baseCost">the base cost of this item</param>
         /// <param name="weight">the weight of this item</param>
         /// <param name="quantSpec">the QuantSpec of this item</param>
-        public Item(string name, string description, int baseCost, double weight,
+        public Item(string name, string description, double baseCost, double weight,
             string weightType, string quantSpec)
         {
             this.Name = name;
